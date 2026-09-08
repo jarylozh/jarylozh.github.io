@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { SiteNav } from "@/components/site-nav";
-import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,9 +30,7 @@ export default function RootLayout({
       className={cn("h-full antialiased", inter.variable, bebasNeue.variable)}
     >
       <body className="min-h-full flex flex-col">
-        <SiteNav />
         {children}
-        <SiteFooter />
       </body>
     </html>
   );
