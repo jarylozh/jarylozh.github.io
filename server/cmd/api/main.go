@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -19,9 +20,24 @@ type config struct {
 	port        int
 	env         string
 	contentPath string
-	cors        struct {
+	trustProxy  bool
+	limiter     struct {
+		rps     float64
+		burst   int
+		enabled bool
+	}
+	dailyTokenBudget int64
+	cors             struct {
 		trustedOrigins []string
 	}
+}
+
+// defaultPort reads the PORT variable that hosts such as Cloud Run inject.
+func defaultPort() int {
+	if port, err := strconv.Atoi(os.Getenv("PORT")); err == nil {
+		return port
+	}
+	return 4000
 }
 
 // Origins allowed to call the API when -cors-trusted-origins is not set.
@@ -35,6 +51,8 @@ type application struct {
 	logger        *log.Logger
 	openai_client *openai.Client
 	context       string
+	limiter       *ipLimiter
+	budget        *tokenBudget
 }
 
 func main() {
@@ -46,9 +64,14 @@ func main() {
 
 	var cfg config
 
-	flag.IntVar(&cfg.port, "port", 4000, "API server port")
+	flag.IntVar(&cfg.port, "port", defaultPort(), "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 	flag.StringVar(&cfg.contentPath, "content", "../content/portfolio.json", "Path to the portfolio content file")
+	flag.BoolVar(&cfg.trustProxy, "trust-proxy", false, "Read the client address from X-Forwarded-For")
+	flag.Float64Var(&cfg.limiter.rps, "limiter-rps", 0.5, "Sustained requests per second per address")
+	flag.IntVar(&cfg.limiter.burst, "limiter-burst", 5, "Burst of requests allowed per address")
+	flag.BoolVar(&cfg.limiter.enabled, "limiter-enabled", true, "Enable per-address rate limiting")
+	flag.Int64Var(&cfg.dailyTokenBudget, "daily-token-budget", 200000, "Token spend cap per UTC day, 0 to disable")
 	flag.Func("cors-trusted-origins", "Space separated list of trusted CORS origins", func(val string) error {
 		cfg.cors.trustedOrigins = strings.Fields(val)
 		return nil
@@ -73,6 +96,16 @@ func main() {
 		logger:        logger,
 		openai_client: &client,
 		context:       context,
+		budget:        newTokenBudget(cfg.dailyTokenBudget),
+	}
+
+	if cfg.limiter.enabled {
+		app.limiter = newIPLimiter(cfg.limiter.rps, cfg.limiter.burst)
+		logger.Printf("rate limiting at %.2f req/s with burst %d per address", cfg.limiter.rps, cfg.limiter.burst)
+	}
+
+	if cfg.dailyTokenBudget > 0 {
+		logger.Printf("daily token budget %d", cfg.dailyTokenBudget)
 	}
 
 	mux := http.NewServeMux()
@@ -81,7 +114,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),
-		Handler:      app.enableCORS(mux),
+		Handler:      app.enableCORS(app.rateLimit(mux)),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,

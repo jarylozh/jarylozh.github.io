@@ -21,6 +21,8 @@ const (
 	maxQuestionRunes   = 500
 	maxContentRunes    = 2000
 	maxHistoryMessages = 12
+
+	maxCompletionTokens = 500
 )
 
 const systemPrompt = `You are Jaryl Ong, replying to visitors on your own portfolio site.
@@ -57,6 +59,17 @@ func (app *application) chatHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if app.budget.exhausted() {
+		app.logger.Print("daily token budget exhausted")
+
+		writeErr := app.writeJSON(w, http.StatusServiceUnavailable,
+			chatError{Message: "I have hit my daily limit, try again tomorrow"}, nil)
+		if writeErr != nil {
+			app.logger.Print(writeErr)
+		}
+		return
+	}
+
 	// Order matters: validation must fail before any header is written.
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
@@ -68,8 +81,12 @@ func (app *application) chatHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	stream := app.openai_client.Chat.Completions.NewStreaming(r.Context(), openai.ChatCompletionNewParams{
-		Model:    openai.ChatModelGPT4o,
-		Messages: buildMessages(req, app.context),
+		Model:               openai.ChatModelGPT4o,
+		Messages:            buildMessages(req, app.context),
+		MaxCompletionTokens: openai.Int(maxCompletionTokens),
+		StreamOptions: openai.ChatCompletionStreamOptionsParam{
+			IncludeUsage: openai.Bool(true),
+		},
 	})
 
 	defer stream.Close()
@@ -91,15 +108,17 @@ func (app *application) chatHandler(w http.ResponseWriter, r *http.Request) {
 		deltas++
 	}
 
+	tokens := app.recordUsage(&acc, req)
+
 	if err := stream.Err(); err != nil {
-		app.logger.Printf("chat stream failed after %d deltas: %s", deltas, err)
+		app.logger.Printf("chat stream failed after %d deltas, %d tokens: %s", deltas, tokens, err)
 		app.writeSSE(w, rc, "error", chatError{Message: "the assistant is unavailable"})
 		return
 	}
 
 	fmt.Fprint(w, "data: [DONE]\n\n")
 	rc.Flush()
-	app.logger.Printf("chat reply in %d deltas, %d history messages", deltas, len(req.History))
+	app.logger.Printf("chat reply in %d deltas, %d history messages, %d tokens", deltas, len(req.History), tokens)
 }
 
 func (app *application) readChatRequest(w http.ResponseWriter, r *http.Request) (chatRequest, error) {
@@ -194,4 +213,29 @@ func (app *application) writeSSE(w http.ResponseWriter, rc *http.ResponseControl
 	}
 
 	return rc.Flush() == nil
+}
+
+// recordUsage charges the day's budget for a request. An interrupted stream may
+// never deliver the usage chunk, so a character estimate stands in.
+func (app *application) recordUsage(acc *openai.ChatCompletionAccumulator, req chatRequest) int64 {
+	tokens := acc.Usage.TotalTokens
+
+	if tokens == 0 {
+		chars := len(systemPrompt) + len(app.context) + len(req.Message)
+		for _, message := range req.History {
+			chars += len(message.Content)
+		}
+		if len(acc.Choices) > 0 {
+			chars += len(acc.Choices[0].Message.Content)
+		}
+		tokens = int64(chars / 4)
+	}
+
+	spent := app.budget.record(tokens)
+
+	if app.config.dailyTokenBudget > 0 && spent >= app.config.dailyTokenBudget {
+		app.logger.Printf("daily token budget reached: %d of %d", spent, app.config.dailyTokenBudget)
+	}
+
+	return tokens
 }

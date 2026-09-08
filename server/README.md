@@ -61,3 +61,70 @@ mux.HandleFunc("/v1/chat", app.chatHandler)
 
 Handlers get `app.config` and `app.logger` for free. Bump `version` in
 `main.go` as you release.
+
+## Flags added for the chat endpoint
+
+| Flag | Default | Description |
+| --- | --- | --- |
+| `-content` | `../content/portfolio.json` | Portfolio data read at startup |
+| `-cors-trusted-origins` | localhost:3000, jarylozh.github.io | Space separated allowed origins |
+| `-trust-proxy` | `false` | Read the client address from `X-Forwarded-For` |
+| `-limiter-rps` | `0.5` | Sustained requests per second per address |
+| `-limiter-burst` | `5` | Burst of requests allowed per address |
+| `-limiter-enabled` | `true` | Enable per-address rate limiting |
+| `-daily-token-budget` | `200000` | Token spend cap per UTC day, `0` disables |
+
+`-port` defaults to the `PORT` variable when the host sets one, otherwise
+`4000`.
+
+## Deploy to Cloud Run
+
+Pushes to `main` that touch `server/` or `content/` build and deploy the
+service automatically via `.github/workflows/backend.yml`, which
+authenticates to Google Cloud with Workload Identity Federation. The steps
+below are the manual equivalent.
+
+
+The image must be `linux/amd64`; Cloud Run rejects arm64. `make image`
+cross-compiles from the repo root, where the build context can reach both
+`server/` and `content/`.
+
+Pick one of the free tier regions — `us-central1`, `us-east1`, or
+`us-west1` — or the allowance does not apply.
+
+1. Store the API key:
+
+   ```sh
+   printf '%s' "$OPENAI_API_KEY" | \
+     gcloud secrets create openai-api-key --data-file=-
+   ```
+
+2. Build and push:
+
+   ```sh
+   make image IMAGE=us-central1-docker.pkg.dev/PROJECT/portfolio/api
+   podman push us-central1-docker.pkg.dev/PROJECT/portfolio/api
+   ```
+
+3. Deploy:
+
+   ```sh
+   gcloud run deploy portfolio-api \
+     --image us-central1-docker.pkg.dev/PROJECT/portfolio/api \
+     --region us-central1 \
+     --allow-unauthenticated \
+     --min-instances 0 \
+     --set-secrets OPENAI_API_KEY=openai-api-key:latest
+   ```
+
+`--min-instances 0` keeps the service inside the free tier; anything higher
+bills continuously. The container already passes `-trust-proxy` and
+`-env=production`.
+
+4. Confirm the response actually streams, rather than arriving in one piece:
+
+   ```sh
+   curl -N -X POST https://SERVICE-URL/v1/chat \
+     -H 'Content-Type: application/json' \
+     -d '{"message":"what have you worked on?","history":[]}'
+   ```
