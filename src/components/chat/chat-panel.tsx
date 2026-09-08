@@ -16,12 +16,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { streamChat, type ChatMessage } from "@/lib/chat-stream";
 
 const SUGGESTIONS = [
-  { label: "About Jaryl", question: "Who is Jaryl and what does he do?" },
+  { label: "About me", question: "Who are you and what do you do?" },
   {
     label: "ST Engineering",
-    question: "What has he worked on at ST Engineering?",
+    question: "What have you worked on at ST Engineering?",
   },
-  { label: "Studies at NUS", question: "What is he studying at NUS?" },
+  { label: "Studies at NUS", question: "What are you studying at NUS?" },
   {
     label: "Vault of Cards",
     question: "Tell me about the Vault of Cards project.",
@@ -193,7 +193,7 @@ export function ChatPanel() {
                     className="flex animate-in flex-col gap-2 border-t border-foreground/10 pt-4 duration-300 fade-in slide-in-from-bottom-2 first:border-t-0 first:pt-0 motion-reduce:animate-none"
                   >
                     <span className="text-xs text-foreground/40">
-                      {message.role === "user" ? "You" : "Assistant"}
+                      {message.role === "user" ? "You" : "Jaryl"}
                     </span>
                     <p
                       aria-live={
