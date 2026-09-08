@@ -55,6 +55,7 @@ type portfolio struct {
 	} `json:"certifications"`
 
 	Projects []struct {
+		ID          string   `json:"id"`
 		Name        string   `json:"name"`
 		Context     string   `json:"context"`
 		Role        string   `json:"role"`
@@ -96,6 +97,7 @@ func loadContext(path string) (string, error) {
 	fmt.Fprintf(&b, "About: %s\n", p.Profile.Summary)
 	fmt.Fprintf(&b, "Contact: %s, LinkedIn %s, resume %s\n",
 		p.Profile.Links.Email, p.Profile.Links.LinkedIn, p.Profile.Links.Resume)
+	b.WriteString("Resume card marker: [[resume]]\n")
 
 	if len(p.Skills) > 0 {
 		b.WriteString("\nSkills\n")
@@ -142,6 +144,7 @@ func loadContext(path string) (string, error) {
 		b.WriteString("\nProjects\n")
 		for _, project := range p.Projects {
 			fmt.Fprintf(&b, "%s — %s (%s)\n", project.Name, project.Context, project.Role)
+			fmt.Fprintf(&b, "  Card marker: [[project:%s]]\n", project.ID)
 			if project.Link != "" {
 				fmt.Fprintf(&b, "  Link: %s\n", project.Link)
 			}

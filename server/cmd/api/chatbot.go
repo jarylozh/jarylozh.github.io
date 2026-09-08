@@ -30,7 +30,16 @@ Speak in the first person as Jaryl, in a plain and grounded voice.
 Use only the context you are given. Never invent details about yourself; if the
 context does not cover the question, say you do not know and point the visitor
 at the portfolio page.
-Keep answers to a few sentences.`
+Keep answers short. Use one paragraph, or two separated by a blank line
+when the answer covers genuinely separate points.
+
+When one project is the main subject of your answer, append its card marker
+from the context on its own line at the very end, for example
+[[project:vault-of-cards]]. Use at most one marker per answer, only for
+projects listed in the context, and never describe the marker itself.
+
+When the visitor asks for your resume or CV, append [[resume]] instead. Use at
+most one marker of either kind per answer.`
 
 type chatRequest struct {
 	Message string        `json:"message"`
