@@ -1,0 +1,128 @@
+{
+  "profile": {
+    "name": "Jaryl Ong",
+    "title": "Senior Software Engineer",
+    "location": "Singapore",
+    "careerStartYear": 2021,
+    "summary": "I take a grounded approach to both life and work, preferring quiet consistency and practical problem-solving over chasing trends. I enjoy the process of breaking down complex ideas, focusing on the details, and delivering reliable results without the fluff.",
+    "links": {
+      "email": "jarylozh@gmail.com",
+      "linkedin": "https://www.linkedin.com/in/jaryl-ong-162ab2144",
+      "resume": "https://drive.google.com/file/d/1NVR8i65dySFFxiIz-L8yTcaHlWFPpiuJ/view?usp=sharing"
+    }
+  },
+  "skills": [
+    {
+      "label": "Languages",
+      "value": "C++ · Go · TypeScript"
+    },
+    {
+      "label": "Frameworks",
+      "value": "Next.js · Svelte · Tailwind"
+    },
+    {
+      "label": "Cloud",
+      "value": "AWS · Docker · GitOps"
+    }
+  ],
+  "experience": [
+    {
+      "company": "ST Engineering",
+      "location": "Singapore",
+      "period": "Jul 2021 — Present",
+      "roles": [
+        {
+          "title": "Senior Software Engineer",
+          "bullets": [
+            "Built an AI engine on Claude that wires platforms together on its own, so new projects get onboarded without a team hand-integrating everything first.",
+            "Co-built a reusable dynamic form module on SurveyJS. Other teams now ship form-heavy apps without writing the frontend from scratch each time.",
+            "Set up containerised CI/CD with GitHub Actions and Docker across several core platform modules, so releases go out without anyone babysitting them."
+          ]
+        },
+        {
+          "title": "Software Engineer",
+          "bullets": [
+            "Designed a full-stack dashboard framework in Go and Svelte that gave internal teams one consistent way to build charts and UI widgets, instead of everyone rolling their own."
+          ]
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "National University of Singapore",
+      "program": "Master of Technology in Software Engineering",
+      "period": "Jul 2025 — Present",
+      "modules": [
+        {
+          "name": "Architecting Scalable Systems",
+          "status": "Completed"
+        },
+        {
+          "name": "Distributed Modern Software Systems",
+          "status": "In Progress"
+        },
+        {
+          "name": "Architecting AI Systems",
+          "status": "In Progress"
+        }
+      ]
+    },
+    {
+      "institution": "DigiPen Institute of Technology",
+      "program": "Bachelor of Computer Science in Real-Time Interactive Simulation",
+      "period": "Graduated 2021",
+      "modules": []
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Developer — Associate",
+      "issuer": "Amazon Web Services",
+      "period": "Dec 2023",
+      "credentialUrl": "https://cp.certmetrics.com/amazon/en/public/verify/credential/SKGHHPGBSFF1QSWC"
+    },
+    {
+      "name": "Custom Generative AI Systems for Enterprises",
+      "issuer": "National University of Singapore",
+      "period": "Aug 2025",
+      "credentialUrl": null
+    }
+  ],
+  "projects": [
+    {
+      "name": "Vault of Cards",
+      "context": "NUS MTech — Architecting Scalable Solutions",
+      "role": "Cloud Architect & Developer",
+      "link": "https://dev.vaultofcards.io",
+      "description": "A marketplace for trading card collectors. You can browse and search listings, put up your own with photos, sign in with a verified email, and message buyers and sellers in real time. Next.js on the front, NestJS microservices on AWS behind it.",
+      "stack": [
+        "Next.js",
+        "NestJS",
+        "AWS",
+        "Docker",
+        "GitHub Actions"
+      ],
+      "bullets": [
+        "Built the Next.js frontend and wired up GitHub Actions so every push deploys itself — no downtime, no manual steps.",
+        "Set up the AWS infrastructure with containerised microservices, so it stays fast and stays up even when traffic spikes."
+      ]
+    },
+    {
+      "name": "Askbot",
+      "context": "Personal Project — LLM Framework Internals",
+      "role": "Developer",
+      "link": "https://github.com/jarylozh/askbot",
+      "description": "I wanted to know what frameworks like LangChain actually do under the hood, so I rebuilt their core pieces myself — token streaming, conversation memory, prompt construction — straight on the OpenAI SDK. FastAPI on the backend, Next.js on the front.",
+      "stack": [
+        "Next.js",
+        "FastAPI",
+        "OpenAI",
+        "SQLite",
+        "Typescript",
+        "Python"
+      ],
+      "bullets": []
+    }
+  ]
+}
