@@ -3,6 +3,17 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "content/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "next.config.ts"
+      - "tsconfig.json"
+      - "postcss.config.mjs"
+      - "components.json"
+      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 # Allow the workflow to publish to Pages.
@@ -36,6 +47,8 @@ jobs:
 
       - name: Build static export
         run: pnpm build
+        env:
+          NEXT_PUBLIC_CHAT_API_URL: ${{ vars.NEXT_PUBLIC_CHAT_API_URL }}
 
       - uses: actions/configure-pages@v5
 

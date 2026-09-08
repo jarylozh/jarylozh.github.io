@@ -1,0 +1,80 @@
+name: Publish and deploy API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "server/**"
+      - "content/**"
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/backend.yml"
+  workflow_dispatch:
+
+# id-token lets the job mint an OIDC token for Workload Identity Federation.
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: api-deploy
+  cancel-in-progress: false
+
+env:
+  PROJECT_ID: jarylozh-portfolio
+  REGION: us-central1
+  SERVICE: portfolio-api
+  IMAGE: us-central1-docker.pkg.dev/jarylozh-portfolio/portfolio/api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache-dependency-path: server/go.sum
+
+      - name: Check formatting and vet
+        working-directory: server
+        run: |
+          test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+          go vet ./...
+
+      - name: Test
+        working-directory: server
+        run: go test ./...
+
+      - uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          workload_identity_provider: projects/405920007273/locations/global/workloadIdentityPools/github/providers/github
+          service_account: github-actions@jarylozh-portfolio.iam.gserviceaccount.com
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Authenticate Docker to Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:${{ github.sha }}
+            ${{ env.IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Only the image changes; scaling, secrets and auth stay as configured.
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE }} \
+            --image ${{ env.IMAGE }}:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --quiet
