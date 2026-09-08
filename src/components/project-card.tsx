@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import gsap from "gsap";
 
+import { cn } from "@/lib/utils";
+
 type ProjectCardProps = {
   name: string;
   context: string;
@@ -11,6 +13,7 @@ type ProjectCardProps = {
   stack: string[];
   bullets: string[];
   link?: string;
+  compact?: boolean;
 };
 
 export function ProjectCard({
@@ -21,6 +24,7 @@ export function ProjectCard({
   stack,
   bullets,
   link,
+  compact = false,
 }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
   const bulletsRef = useRef<HTMLDivElement>(null);
@@ -48,9 +52,21 @@ export function ProjectCard({
   const hasBullets = bullets.length > 0;
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-12">
-      <div className="flex flex-col gap-2 md:col-span-4">
-        <h3 className="text-2xl leading-tight sm:text-3xl">{name}</h3>
+    <div
+      className={cn(
+        "grid grid-cols-1",
+        compact ? "gap-4" : "gap-6 sm:gap-8 md:grid-cols-12",
+      )}
+    >
+      <div className={cn("flex flex-col gap-2", !compact && "md:col-span-4")}>
+        <h3
+          className={cn(
+            "leading-tight",
+            compact ? "text-lg" : "text-2xl sm:text-3xl",
+          )}
+        >
+          {name}
+        </h3>
         <span className="text-xs text-foreground/60">{context}</span>
         <span className="text-xs text-foreground/50">{role}</span>
         {link && (
@@ -66,7 +82,7 @@ export function ProjectCard({
         )}
       </div>
 
-      <div className="flex flex-col md:col-span-8">
+      <div className={cn("flex flex-col", !compact && "md:col-span-8")}>
         {hasBullets ? (
           <div
             role="button"
@@ -76,7 +92,12 @@ export function ProjectCard({
             onKeyDown={handleKeyDown}
             className="group/desc flex cursor-pointer flex-col gap-3 outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
           >
-            <p className="text-sm font-normal leading-relaxed text-foreground sm:text-base">
+            <p
+              className={cn(
+                "font-normal leading-relaxed text-foreground",
+                compact ? "text-sm" : "text-sm sm:text-base",
+              )}
+            >
               {description}
             </p>
             <span className="text-xs text-foreground/50 transition-colors group-hover/desc:text-foreground">
@@ -84,7 +105,12 @@ export function ProjectCard({
             </span>
           </div>
         ) : (
-          <p className="text-sm font-normal leading-relaxed text-foreground sm:text-base">
+          <p
+            className={cn(
+              "font-normal leading-relaxed text-foreground",
+              compact ? "text-sm" : "text-sm sm:text-base",
+            )}
+          >
             {description}
           </p>
         )}
@@ -95,11 +121,16 @@ export function ProjectCard({
             className="overflow-hidden"
             style={{ height: 0, opacity: 0 }}
           >
-            <ul className="flex flex-col gap-3 pt-6">
+            <ul
+              className={cn("flex flex-col gap-3", compact ? "pt-4" : "pt-6")}
+            >
               {bullets.map((bullet) => (
                 <li
                   key={bullet}
-                  className="text-sm font-light leading-relaxed text-foreground sm:text-base"
+                  className={cn(
+                    "font-light leading-relaxed text-foreground",
+                    compact ? "text-sm" : "text-sm sm:text-base",
+                  )}
                 >
                   {bullet}
                 </li>
@@ -108,7 +139,7 @@ export function ProjectCard({
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2 pt-6">
+        <div className={cn("flex flex-wrap gap-2", compact ? "pt-4" : "pt-6")}>
           {stack.map((tech) => (
             <span
               key={tech}
