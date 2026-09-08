@@ -103,7 +103,6 @@ export default function Home() {
       >
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12">
           <FadeIn className="flex flex-col gap-3 sm:gap-4">
-            <span className="text-xs text-foreground/50 ">02 / Career</span>
             <h2 className="text-4xl leading-[0.95] sm:text-6xl md:text-7xl lg:text-8xl">
               Professional Experience
             </h2>
@@ -154,7 +153,6 @@ export default function Home() {
       >
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12">
           <FadeIn className="flex flex-col gap-3 sm:gap-4">
-            <span className="text-xs text-foreground/50">03 / Projects</span>
             <h2 className="text-4xl leading-[0.95] sm:text-6xl md:text-7xl lg:text-8xl">
               Selected Projects
             </h2>
@@ -174,7 +172,6 @@ export default function Home() {
       >
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12">
           <FadeIn className="flex flex-col gap-3 sm:gap-4">
-            <span className="text-xs text-foreground/50">04 / Education</span>
             <h2 className="text-4xl leading-[0.95] sm:text-6xl md:text-7xl lg:text-8xl">
               Education
             </h2>
@@ -226,9 +223,6 @@ export default function Home() {
       >
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12">
           <FadeIn className="flex flex-col gap-3 sm:gap-4">
-            <span className="text-xs text-foreground/50">
-              05 / Certifications
-            </span>
             <h2 className="text-4xl leading-[0.95] sm:text-6xl md:text-7xl lg:text-8xl">
               Certifications
             </h2>
