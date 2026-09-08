@@ -85,3 +85,44 @@ export function linkToken(token: string): TokenLink | null {
 
   return null;
 }
+
+const MARKDOWN_LINK = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g;
+
+const PARTIAL_MARKDOWN_LINK = /\[[^\]\n]*(\](\([^)\s]*)?)?$/;
+
+export type Segment =
+  | { kind: "text"; text: string }
+  | { kind: "link"; label: string; href: string };
+
+/**
+ * Splits a paragraph into plain runs and markdown links. A half-typed link is
+ * withheld while streaming so its brackets never show.
+ */
+export function segmentParagraph(
+  paragraph: string,
+  withholdPartial = false,
+): Segment[] {
+  const source = withholdPartial
+    ? paragraph.replace(PARTIAL_MARKDOWN_LINK, "")
+    : paragraph;
+
+  const segments: Segment[] = [];
+  let cursor = 0;
+
+  for (const match of source.matchAll(MARKDOWN_LINK)) {
+    const [full, label, href] = match;
+    const start = match.index ?? 0;
+
+    if (start > cursor) {
+      segments.push({ kind: "text", text: source.slice(cursor, start) });
+    }
+    segments.push({ kind: "link", label, href });
+    cursor = start + full.length;
+  }
+
+  if (cursor < source.length) {
+    segments.push({ kind: "text", text: source.slice(cursor) });
+  }
+
+  return segments.length > 0 ? segments : [{ kind: "text", text: "" }];
+}

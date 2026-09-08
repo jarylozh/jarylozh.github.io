@@ -21,7 +21,12 @@ import {
   ProjectPreview,
 } from "@/components/chat/project-preview";
 import { ResumeCard } from "@/components/chat/resume-card";
-import { linkToken, parseReply, splitParagraphs } from "@/lib/chat-cards";
+import {
+  linkToken,
+  parseReply,
+  segmentParagraph,
+  splitParagraphs,
+} from "@/lib/chat-cards";
 import { portfolio } from "@/lib/portfolio";
 import { streamChat, type ChatMessage } from "@/lib/chat-stream";
 
@@ -52,38 +57,64 @@ const PROJECT_IDS = portfolio.projects.map((project) => project.id);
 
 const AVATAR_PX = 192;
 
-// A link is withheld while its token is still arriving, so a half-formed url
-// is never clickable.
+const FADE_IN =
+  "animate-in duration-700 ease-out fade-in blur-in-2 motion-reduce:animate-none";
+
+const LINK =
+  "normal-case tracking-normal underline underline-offset-4 transition-opacity hover:opacity-70";
+
+// Links are withheld while their token is still arriving, so a half-formed url
+// or an unclosed [label]( never shows.
 function renderTokens(paragraph: string, streamingTail: boolean) {
-  const parts = paragraph.split(/(\s+)/);
+  const segments = segmentParagraph(paragraph, streamingTail);
+  const lastSegment = segments.length - 1;
 
-  return parts.map((part, partIndex) => {
-    const isTail = streamingTail && partIndex === parts.length - 1;
-    const link = isTail ? null : linkToken(part);
+  return segments.flatMap((segment, segmentIndex) => {
+    if (segment.kind === "link") {
+      return [
+        <span key={`link-${segmentIndex}`} className={FADE_IN}>
+          <a
+            href={segment.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={LINK}
+          >
+            {segment.label}
+          </a>
+        </span>,
+      ];
+    }
 
-    return (
-      <span
-        key={partIndex}
-        className="animate-in duration-700 ease-out fade-in blur-in-2 motion-reduce:animate-none"
-      >
-        {link ? (
-          <>
-            <a
-              href={link.href}
-              {...(link.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-              className="normal-case tracking-normal underline underline-offset-4 transition-opacity hover:opacity-70"
-            >
-              {link.label}
-            </a>
-            {link.trailing}
-          </>
-        ) : (
-          part
-        )}
-      </span>
-    );
+    const parts = segment.text.split(/(\s+)/);
+
+    return parts.map((part, partIndex) => {
+      const isTail =
+        streamingTail &&
+        segmentIndex === lastSegment &&
+        partIndex === parts.length - 1;
+      const link = isTail ? null : linkToken(part);
+
+      return (
+        <span key={`text-${segmentIndex}-${partIndex}`} className={FADE_IN}>
+          {link ? (
+            <>
+              <a
+                href={link.href}
+                {...(link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className={LINK}
+              >
+                {link.label}
+              </a>
+              {link.trailing}
+            </>
+          ) : (
+            part
+          )}
+        </span>
+      );
+    });
   });
 }
 
