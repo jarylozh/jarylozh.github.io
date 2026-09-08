@@ -4,7 +4,7 @@ export type ChatMessage = {
 };
 
 const CHAT_API_URL =
-  process.env.NEXT_PUBLIC_CHAT_API_URL ?? "http://localhost:4000/v1/chat";
+  process.env.NEXT_PUBLIC_CHAT_API_URL || "http://localhost:4000/v1/chat";
 
 const MAX_HISTORY_TURNS = 6;
 
