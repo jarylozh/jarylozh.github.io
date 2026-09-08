@@ -125,6 +125,16 @@ export function ChatPanel() {
 
   const hasCards = cards.length > 0;
 
+  const [cardsOpen, setCardsOpen] = useState(true);
+  const [seenCardCount, setSeenCardCount] = useState(0);
+
+  // A newly raised card reopens the overlay so it is not missed. Adjusting
+  // during render avoids the extra commit an effect would cost.
+  if (cards.length !== seenCardCount) {
+    setSeenCardCount(cards.length);
+    if (cards.length > seenCardCount) setCardsOpen(true);
+  }
+
   const appendDelta = useCallback((delta: string) => {
     setMessages((prev) => {
       const last = prev.at(-1);
@@ -475,21 +485,37 @@ export function ChatPanel() {
         </FadeIn>
 
         <aside
-          aria-label="Related cards"
+          aria-label="Project cards"
           className={cn(
-            "w-full shrink-0 snap-x snap-mandatory gap-3 overflow-hidden transition-[width,margin] duration-700 ease-out",
-            "flex lg:w-0 lg:snap-none lg:flex-col lg:overflow-y-auto",
-            hasCards && "mt-8 max-h-[70svh] lg:mt-0 lg:ml-10 lg:w-80",
+            "z-40 shrink-0 flex-col border border-foreground/15 bg-card shadow-lg transition-[width,margin] duration-700 ease-out",
+            // Overlays the transcript on small screens, sits beside it on large.
+            "fixed inset-x-4 top-4",
+            "lg:static lg:inset-auto lg:z-auto lg:w-0 lg:border-0 lg:bg-transparent lg:shadow-none",
+            hasCards ? "flex lg:ml-10 lg:w-80" : "hidden lg:flex",
           )}
         >
-          {cards.map((project) => (
-            <div
-              key={project.id}
-              className="min-w-[85%] shrink-0 snap-start lg:min-w-0 lg:shrink"
-            >
-              <ProjectPreview project={project} />
-            </div>
-          ))}
+          <button
+            type="button"
+            onClick={() => setCardsOpen((open) => !open)}
+            aria-expanded={cardsOpen}
+            className="flex items-center justify-between gap-3 px-3 py-2 text-xs text-foreground/60 transition-colors hover:text-foreground lg:hidden"
+          >
+            <span>
+              {cards.length === 1 ? "1 project" : `${cards.length} projects`}
+            </span>
+            <span aria-hidden>{cardsOpen ? "\u2212" : "+"}</span>
+          </button>
+
+          <div
+            className={cn(
+              "flex-col gap-3 overflow-y-auto p-3 pt-0 lg:flex lg:max-h-[70svh] lg:p-0",
+              cardsOpen ? "flex max-h-[60svh]" : "hidden",
+            )}
+          >
+            {cards.map((project) => (
+              <ProjectPreview key={project.id} project={project} />
+            ))}
+          </div>
         </aside>
       </div>
     </section>
