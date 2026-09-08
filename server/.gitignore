@@ -1,0 +1,26 @@
+.DS_STORE
+# -----# ---------------------------------------------------------------------------
+# IDEs and Text Editors
+# ---------------------------------------------------------------------------
+# JetBrains (GoLand, IntelliJ)
+.idea/
+*.iws
+*.iml
+
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+*.code-workspace
+
+# Mac/Windows OS metadata
+.DS_Store
+Thumbs.db
+
+# Local environment
+.env
+.env.*
+!.env.template
+
+# Compiled binaries
+/api
+/bin/
