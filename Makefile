@@ -6,7 +6,7 @@ CHAT_API_URL ?= http://localhost:$(API_PORT)/v1/chat
 
 IMAGE ?= portfolio-api
 
-.PHONY: help install dev dev-api dev-web build build-api build-web image lint clean
+.PHONY: help install dev dev-api dev-web build build-api build-web image preview lint clean
 
 help:
 	@echo "install    install js and go dependencies, seed server/.env"
@@ -15,6 +15,7 @@ help:
 	@echo "dev-web    run the next site on port $(WEB_PORT)"
 	@echo "build      build the api binary and the static site"
 	@echo "image      build the linux/amd64 container image for cloud run"
+	@echo "preview    record the project preview video and poster"
 	@echo "lint       run eslint and go vet"
 	@echo "clean      remove build output"
 
@@ -41,6 +42,9 @@ build: build-api build-web
 
 build-api:
 	cd server && go build -o bin/api ./cmd/api
+
+preview:
+	node scripts/capture-preview.mjs
 
 image:
 	podman build --platform linux/amd64 -t $(IMAGE) .
