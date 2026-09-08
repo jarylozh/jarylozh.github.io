@@ -37,6 +37,7 @@ export type Certification = {
 };
 
 export type Project = {
+  id: string;
   name: string;
   context: string;
   role: string;
@@ -44,6 +45,8 @@ export type Project = {
   description: string;
   stack: string[];
   bullets: string[];
+  preview: string | null;
+  previewVideo: string | null;
 };
 
 export type Portfolio = {
@@ -57,6 +60,7 @@ export type Portfolio = {
       email: string;
       linkedin: string;
       resume: string;
+      resumeDownload: string;
     };
   };
   skills: Skill[];

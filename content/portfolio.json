@@ -8,7 +8,8 @@
     "links": {
       "email": "jarylozh@gmail.com",
       "linkedin": "https://www.linkedin.com/in/jaryl-ong-162ab2144",
-      "resume": "https://drive.google.com/file/d/1NVR8i65dySFFxiIz-L8yTcaHlWFPpiuJ/view?usp=sharing"
+      "resume": "https://drive.google.com/file/d/1NVR8i65dySFFxiIz-L8yTcaHlWFPpiuJ/view?usp=sharing",
+      "resumeDownload": "https://drive.google.com/uc?export=download&id=1NVR8i65dySFFxiIz-L8yTcaHlWFPpiuJ"
     }
   },
   "skills": [
@@ -91,6 +92,7 @@
   ],
   "projects": [
     {
+      "id": "vault-of-cards",
       "name": "Vault of Cards",
       "context": "NUS MTech — Architecting Scalable Solutions",
       "role": "Cloud Architect & Developer",
@@ -106,9 +108,12 @@
       "bullets": [
         "Built the Next.js frontend and wired up GitHub Actions so every push deploys itself — no downtime, no manual steps.",
         "Set up the AWS infrastructure with containerised microservices, so it stays fast and stays up even when traffic spikes."
-      ]
+      ],
+      "preview": "/previews/vault-of-cards.jpg",
+      "previewVideo": "/previews/vault-of-cards.webm"
     },
     {
+      "id": "askbot",
       "name": "Askbot",
       "context": "Personal Project — LLM Framework Internals",
       "role": "Developer",
@@ -122,7 +127,9 @@
         "Typescript",
         "Python"
       ],
-      "bullets": []
+      "bullets": [],
+      "preview": null,
+      "previewVideo": null
     }
   ]
 }
