@@ -4,7 +4,9 @@ API_PORT ?= 4000
 WEB_PORT ?= 3000
 CHAT_API_URL ?= http://localhost:$(API_PORT)/v1/chat
 
-.PHONY: help install dev dev-api dev-web build build-api build-web lint clean
+IMAGE ?= portfolio-api
+
+.PHONY: help install dev dev-api dev-web build build-api build-web image lint clean
 
 help:
 	@echo "install    install js and go dependencies, seed server/.env"
@@ -12,6 +14,7 @@ help:
 	@echo "dev-api    run the go api on port $(API_PORT)"
 	@echo "dev-web    run the next site on port $(WEB_PORT)"
 	@echo "build      build the api binary and the static site"
+	@echo "image      build the linux/amd64 container image for cloud run"
 	@echo "lint       run eslint and go vet"
 	@echo "clean      remove build output"
 
@@ -38,6 +41,9 @@ build: build-api build-web
 
 build-api:
 	cd server && go build -o bin/api ./cmd/api
+
+image:
+	podman build --platform linux/amd64 -t $(IMAGE) .
 
 build-web:
 	NEXT_PUBLIC_CHAT_API_URL=$(CHAT_API_URL) pnpm build
