@@ -58,7 +58,7 @@ export default function Home() {
               width={AVATAR_PX}
               height={AVATAR_PX}
               priority
-              className="size-28 shrink-0 object-contain sm:size-48 lg:size-64"
+              className="size-28 shrink-0 object-contain mask-b-from-55% mask-b-to-95% sm:size-48 lg:size-64"
             />
           </div>
 

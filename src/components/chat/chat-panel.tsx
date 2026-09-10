@@ -379,7 +379,7 @@ export function ChatPanel() {
                 width={AVATAR_PX}
                 height={AVATAR_PX}
                 priority
-                className="size-24 animate-in object-contain duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:size-28"
+                className="size-24 animate-in object-contain mask-b-from-55% mask-b-to-95% duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:size-28"
               />
 
               <div className="flex animate-in flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow duration-1000 delay-150 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:justify-start">
