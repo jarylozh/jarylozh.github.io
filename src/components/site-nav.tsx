@@ -40,8 +40,8 @@ function handleNavClick(href: string) {
 export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 bg-background">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-center gap-4 px-5 py-4 sm:px-8 md:px-12 lg:px-24">
-        <NavigationMenu>
+      <div className="mx-auto flex w-full max-w-5xl items-center gap-4 overflow-x-auto px-5 py-4 sm:px-8 md:px-12 lg:px-24">
+        <NavigationMenu className="mx-auto w-max">
           <NavigationMenuList className="gap-0 sm:gap-1">
             {sections.map((section) => (
               <NavigationMenuItem key={section.href}>
@@ -53,7 +53,7 @@ export function SiteNav() {
                       onClick={handleNavClick(section.href)}
                     />
                   }
-                  className="rounded-none px-2 text-sm tracking-widest uppercase text-foreground font-heading transition-[text-decoration] hover:bg-transparent hover:underline hover:underline-offset-4 focus:bg-transparent sm:px-3 sm:text-base"
+                  className="rounded-none px-1.5 text-[10px] leading-[1.8] tracking-[0.04em] uppercase text-foreground transition-[text-decoration] hover:bg-transparent hover:underline hover:underline-offset-4 focus:bg-transparent sm:px-3 sm:text-[12px] sm:tracking-[0.083em]"
                 >
                   {section.label} 
                 </NavigationMenuLink>
