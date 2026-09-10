@@ -61,10 +61,13 @@ type portfolio struct {
 	} `json:"education"`
 
 	Certifications []struct {
-		Name          string `json:"name"`
-		Issuer        string `json:"issuer"`
-		Period        string `json:"period"`
-		CredentialURL string `json:"credentialUrl"`
+		Name          string   `json:"name"`
+		Issuer        string   `json:"issuer"`
+		Period        string   `json:"period"`
+		Expires       string   `json:"expires"`
+		Description   string   `json:"description"`
+		Topics        []string `json:"topics"`
+		CredentialURL string   `json:"credentialUrl"`
 	} `json:"certifications"`
 
 	Projects []struct {
@@ -171,10 +174,19 @@ func loadContext(path string) (string, error) {
 		b.WriteString("\nCertifications\n")
 		for _, cert := range p.Certifications {
 			fmt.Fprintf(&b, "%s, %s (%s)", cert.Name, cert.Issuer, cert.Period)
+			if cert.Expires != "" {
+				fmt.Fprintf(&b, ", expires %s", cert.Expires)
+			}
 			if cert.CredentialURL != "" {
 				fmt.Fprintf(&b, ", credential %s", cert.CredentialURL)
 			}
 			b.WriteString("\n")
+			if cert.Description != "" {
+				fmt.Fprintf(&b, "  %s\n", cert.Description)
+			}
+			if len(cert.Topics) > 0 {
+				fmt.Fprintf(&b, "  Topics: %s\n", strings.Join(cert.Topics, ", "))
+			}
 		}
 	}
 

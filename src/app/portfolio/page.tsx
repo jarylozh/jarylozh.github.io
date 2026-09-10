@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/fade-in";
 import { ProjectCard } from "@/components/project-card";
+import { TagList } from "@/components/tag-list";
 import { portfolio } from "@/lib/portfolio";
 
 export const metadata: Metadata = {
@@ -246,7 +247,10 @@ export default function Home() {
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 meta">
                     <span>{cert.issuer}</span>
-                    <span>{cert.period}</span>
+                    <span>
+                      {cert.period}
+                      {cert.expires && ` · Expires ${cert.expires}`}
+                    </span>
                   </div>
 
                   <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
@@ -265,6 +269,14 @@ export default function Home() {
                       </a>
                     )}
                   </div>
+
+                  {cert.description && (
+                    <p className="max-w-[520px] body-copy pt-3 font-normal">
+                      {cert.description}
+                    </p>
+                  )}
+
+                  <TagList items={cert.topics} className="pt-3" />
                 </FadeIn>
               ))}
             </div>

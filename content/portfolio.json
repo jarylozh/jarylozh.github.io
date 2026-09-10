@@ -103,13 +103,33 @@
       "name": "AWS Certified Developer · Associate",
       "issuer": "Amazon Web Services",
       "period": "Dec 2023",
-      "credentialUrl": "https://cp.certmetrics.com/amazon/en/public/verify/credential/SKGHHPGBSFF1QSWC"
+      "credentialUrl": "https://cp.certmetrics.com/amazon/en/public/verify/credential/SKGHHPGBSFF1QSWC",
+      "expires": "Dec 2026",
+      "description": "Developing, deploying, and debugging applications on AWS.",
+      "topics": [
+        "Lambda",
+        "DynamoDB",
+        "API Gateway",
+        "S3",
+        "IAM",
+        "CloudFormation"
+      ]
     },
     {
       "name": "Custom Generative AI Systems for Enterprises",
       "issuer": "National University of Singapore",
       "period": "Aug 2025",
-      "credentialUrl": null
+      "credentialUrl": null,
+      "expires": null,
+      "description": "Building generative AI systems for enterprise use, from retrieval and fine-tuning through to deployment and governance.",
+      "topics": [
+        "RAG",
+        "Fine-tuning",
+        "Orchestration",
+        "Evaluation",
+        "Guardrails",
+        "Deployment"
+      ]
     }
   ],
   "projects": [

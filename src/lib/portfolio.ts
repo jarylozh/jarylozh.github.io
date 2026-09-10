@@ -33,6 +33,9 @@ export type Certification = {
   name: string;
   issuer: string;
   period: string;
+  expires: string | null;
+  description: string;
+  topics: string[];
   credentialUrl: string | null;
 };
 
