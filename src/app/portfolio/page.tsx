@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/fade-in";
 import { ProjectCard } from "@/components/project-card";
@@ -13,6 +14,8 @@ export const metadata: Metadata = {
 
 const { profile, skills, experience, education, certifications, projects } =
   portfolio;
+
+const AVATAR_PX = 192;
 
 /** Counts the graduate certificates an entry has finished. */
 function countCompleted(entry: Education) {
@@ -35,6 +38,15 @@ export default function Home() {
           className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12"
         >
           <div className="flex flex-col items-center gap-4 text-center sm:items-start sm:gap-6 sm:text-left">
+            <Image
+              src="/avatar.jpeg"
+              alt={profile.name}
+              width={AVATAR_PX}
+              height={AVATAR_PX}
+              priority
+              className="size-24 object-cover mix-blend-multiply sm:size-28"
+            />
+
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow sm:justify-start">
               <span>{profile.title}</span>
               <span
