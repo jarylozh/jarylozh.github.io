@@ -208,7 +208,7 @@ export default function Home() {
                 </h3>
 
                 {entry.certificates.length > 0 && (
-                  <div className="flex max-w-[560px] flex-col gap-2 pt-3 sm:pl-6">
+                  <div className="flex max-w-[560px] flex-col gap-2 pt-3">
                     <span className="meta">
                       Graduate certificates
                       {entry.certificatesRequired &&
@@ -219,7 +219,7 @@ export default function Home() {
                       {entry.certificates.map((certificate) => (
                         <li
                           key={certificate.name}
-                          className="flex items-baseline justify-between gap-x-6 body-copy font-light"
+                          className="flex items-baseline justify-between gap-x-6 body-copy font-normal"
                         >
                           <span className="min-w-0">{certificate.name}</span>
                           <span className="shrink-0 text-muted-foreground">
