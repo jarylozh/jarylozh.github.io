@@ -52,11 +52,12 @@ const EMAIL_TOKEN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const TRAILING_PUNCTUATION = /[.,;:!?)\]}'"]+$/;
 
+const INTERNAL_TOKEN = /^\/portfolio\/?(#[a-z-]+)?$/i;
+
 export type TokenLink = {
   href: string;
   label: string;
   trailing: string;
-  external: boolean;
 };
 
 /**
@@ -71,22 +72,21 @@ export function linkToken(token: string): TokenLink | null {
     const href = core.toLowerCase().startsWith("www.")
       ? `https://${core}`
       : core;
-    return { href, label: core, trailing: punctuation, external: true };
+    return { href, label: core, trailing: punctuation };
   }
 
   if (EMAIL_TOKEN.test(core)) {
-    return {
-      href: `mailto:${core}`,
-      label: core,
-      trailing: punctuation,
-      external: false,
-    };
+    return { href: `mailto:${core}`, label: core, trailing: punctuation };
+  }
+
+  if (INTERNAL_TOKEN.test(core)) {
+    return { href: core, label: core, trailing: punctuation };
   }
 
   return null;
 }
 
-const MARKDOWN_LINK = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g;
+const MARKDOWN_LINK = /\[([^\]\n]+)\]\(((?:https?:\/\/|\/)[^\s)]+)\)/g;
 
 const PARTIAL_MARKDOWN_LINK = /\[[^\]\n]*(\](\([^)\s]*)?)?$/;
 

@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
   type KeyboardEvent,
+  type ReactNode,
 } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -68,6 +69,29 @@ const FADE_IN =
 const LINK =
   "normal-case tracking-normal underline underline-offset-4 transition-opacity hover:opacity-70";
 
+/** Renders a reply link, routing portfolio paths through the client router. */
+function ReplyLink({ href, children }: { href: string; children: ReactNode }) {
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={LINK}>
+        {children}
+      </Link>
+    );
+  }
+
+  const external = href.startsWith("http");
+
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className={LINK}
+    >
+      {children}
+    </a>
+  );
+}
+
 // Links are withheld while their token is still arriving, so a half-formed url
 // or an unclosed [label]( never shows.
 function renderTokens(paragraph: string, streamingTail: boolean) {
@@ -78,14 +102,7 @@ function renderTokens(paragraph: string, streamingTail: boolean) {
     if (segment.kind === "link") {
       return [
         <span key={`link-${segmentIndex}`} className={FADE_IN}>
-          <a
-            href={segment.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={LINK}
-          >
-            {segment.label}
-          </a>
+          <ReplyLink href={segment.href}>{segment.label}</ReplyLink>
         </span>,
       ];
     }
@@ -103,15 +120,7 @@ function renderTokens(paragraph: string, streamingTail: boolean) {
         <span key={`text-${segmentIndex}-${partIndex}`} className={FADE_IN}>
           {link ? (
             <>
-              <a
-                href={link.href}
-                {...(link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className={LINK}
-              >
-                {link.label}
-              </a>
+              <ReplyLink href={link.href}>{link.label}</ReplyLink>
               {link.trailing}
             </>
           ) : (
