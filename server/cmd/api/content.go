@@ -51,13 +51,14 @@ type portfolio struct {
 	} `json:"experience"`
 
 	Education []struct {
-		Institution string `json:"institution"`
-		Program     string `json:"program"`
-		Period      string `json:"period"`
-		Modules     []struct {
+		Institution          string `json:"institution"`
+		Program              string `json:"program"`
+		Period               string `json:"period"`
+		CertificatesRequired int    `json:"certificatesRequired"`
+		Certificates         []struct {
 			Name   string `json:"name"`
 			Status string `json:"status"`
-		} `json:"modules"`
+		} `json:"certificates"`
 	} `json:"education"`
 
 	Certifications []struct {
@@ -164,8 +165,18 @@ func loadContext(path string) (string, error) {
 		b.WriteString("\nEducation\n")
 		for _, entry := range p.Education {
 			fmt.Fprintf(&b, "%s, %s (%s)\n", entry.Institution, entry.Program, entry.Period)
-			for _, module := range entry.Modules {
-				fmt.Fprintf(&b, "  - %s: %s\n", module.Name, module.Status)
+			if entry.CertificatesRequired > 0 {
+				done := 0
+				for _, certificate := range entry.Certificates {
+					if certificate.Status == "Completed" {
+						done++
+					}
+				}
+				fmt.Fprintf(&b, "  Stackable programme: the degree is awarded on %d graduate certificates, %d completed so far\n",
+					entry.CertificatesRequired, done)
+			}
+			for _, certificate := range entry.Certificates {
+				fmt.Fprintf(&b, "  - Graduate certificate, %s: %s\n", certificate.Name, certificate.Status)
 			}
 		}
 	}

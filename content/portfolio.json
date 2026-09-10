@@ -76,7 +76,8 @@
       "institution": "National University of Singapore",
       "program": "Master of Technology in Software Engineering",
       "period": "Jul 2025 · Present",
-      "modules": [
+      "certificatesRequired": 4,
+      "certificates": [
         {
           "name": "Architecting Scalable Systems",
           "status": "Completed"
@@ -95,7 +96,7 @@
       "institution": "DigiPen Institute of Technology",
       "program": "Bachelor of Computer Science in Real-Time Interactive Simulation",
       "period": "Graduated 2021",
-      "modules": []
+      "certificates": []
     }
   ],
   "certifications": [

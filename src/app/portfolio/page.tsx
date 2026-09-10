@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/fade-in";
 import { ProjectCard } from "@/components/project-card";
 import { TagList } from "@/components/tag-list";
-import { portfolio } from "@/lib/portfolio";
+import { portfolio, type Education } from "@/lib/portfolio";
 
 export const metadata: Metadata = {
   title: "PORTFOLIO",
@@ -13,6 +13,13 @@ export const metadata: Metadata = {
 
 const { profile, skills, experience, education, certifications, projects } =
   portfolio;
+
+/** Counts the graduate certificates an entry has finished. */
+function countCompleted(entry: Education) {
+  return entry.certificates.filter(
+    (certificate) => certificate.status === "Completed",
+  ).length;
+}
 
 export default function Home() {
   const yearsOfExperience = new Date().getFullYear() - profile.careerStartYear;
@@ -200,20 +207,28 @@ export default function Home() {
                   {entry.program}
                 </h3>
 
-                {entry.modules.length > 0 && (
-                  <ul className="flex max-w-[560px] flex-col gap-1 pt-3 sm:pl-6">
-                    {entry.modules.map((module) => (
-                      <li
-                        key={module.name}
-                        className="flex items-baseline justify-between gap-x-6 body-copy font-light"
-                      >
-                        <span className="min-w-0">{module.name}</span>
-                        <span className="shrink-0 text-muted-foreground">
-                          {module.status}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                {entry.certificates.length > 0 && (
+                  <div className="flex max-w-[560px] flex-col gap-2 pt-3 sm:pl-6">
+                    <span className="meta">
+                      Graduate certificates
+                      {entry.certificatesRequired &&
+                        ` · ${countCompleted(entry)} of ${entry.certificatesRequired} complete`}
+                    </span>
+
+                    <ul className="flex flex-col gap-1">
+                      {entry.certificates.map((certificate) => (
+                        <li
+                          key={certificate.name}
+                          className="flex items-baseline justify-between gap-x-6 body-copy font-light"
+                        >
+                          <span className="min-w-0">{certificate.name}</span>
+                          <span className="shrink-0 text-muted-foreground">
+                            {certificate.status}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </FadeIn>
             ))}

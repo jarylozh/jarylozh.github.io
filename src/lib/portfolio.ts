@@ -17,7 +17,7 @@ export type Experience = {
   roles: Role[];
 };
 
-export type Module = {
+export type GraduateCertificate = {
   name: string;
   status: string;
 };
@@ -26,7 +26,8 @@ export type Education = {
   institution: string;
   program: string;
   period: string;
-  modules: Module[];
+  certificatesRequired?: number;
+  certificates: GraduateCertificate[];
 };
 
 export type Certification = {
