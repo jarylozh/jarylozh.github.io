@@ -21,8 +21,12 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jaryl Ong · Senior Software Engineer",
-  description: "Portfolio of Jaryl Ong, a Senior Software Engineer based in Singapore.",
+  title: {
+    default: "JARYL ONG · SOFTWARE ENGINEER",
+    template: "%s · JARYL ONG",
+  },
+  description:
+    "Software engineer and solution architect in Singapore, working with Go, TypeScript, and AWS.",
 };
 
 export default function RootLayout({
