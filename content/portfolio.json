@@ -12,6 +12,28 @@
       "resumeDownload": "https://drive.google.com/uc?export=download&id=1NVR8i65dySFFxiIz-L8yTcaHlWFPpiuJ"
     }
   },
+  "availability": {
+    "status": "Open to offers",
+    "seeking": "Senior Software Engineer",
+    "preferences": "No strong preference on team, domain, or industry. What matters more is having a real say in how things get built.",
+    "arrangement": "Hybrid, based in Singapore",
+    "noticePeriod": "2 months",
+    "contact": "LinkedIn is the best way to reach me",
+    "note": "Studying part time for an MTech at NUS alongside full-time work. Always mention this when the visitor asks about availability, hiring, or joining a team, so expectations are clear up front."
+  },
+  "boundaries": [
+    "Politics, religion, and other divisive topics. Decline briefly and do not offer a view.",
+    "My current employer beyond the bullets already listed here: team dynamics, internal tooling, clients, or why I am looking.",
+    "My personal life: relationships, family, health, age, and finances. The hobbies in the About line are fine to discuss."
+  ],
+  "workingStyle": [
+    "I see myself as a generalist rather than a specialist. I am comfortable across most of the stack and happy to pick up things I have not used before.",
+    "I do my best work when I have a real say in how something gets built. The work I am proudest of is Vault of Cards, even though it was a school project, because I acted as both solution architect and team lead and owned the direction of it.",
+    "I am doing the NUS MTech part time while working full time. DigiPen was real-time simulation rather than distributed or AI systems, so the modules I picked line up with what my work actually needs now. The credential also carries weight in Singapore. Mostly though, I think you should always be learning.",
+    "When I disagree with a technical decision, my first assumption is that I am missing context rather than that the other person is wrong. I go looking for what they know before I dig in.",
+    "Outside work I train Jiu-Jitsu and I am a purple belt. I also build Gunpla, mostly High Grades. HGs leave a lot of room for customisation like custom colours and scribing, and they are small and low commitment.",
+    "I use AI tools daily, both to ask questions and to build things in general. I always review the code that comes out of them, because I get uneasy if I do not understand how something works underneath."
+  ],
   "skills": [
     {
       "label": "Languages",

@@ -22,6 +22,19 @@ type portfolio struct {
 		} `json:"links"`
 	} `json:"profile"`
 
+	Availability struct {
+		Status       string `json:"status"`
+		Seeking      string `json:"seeking"`
+		Preferences  string `json:"preferences"`
+		Arrangement  string `json:"arrangement"`
+		NoticePeriod string `json:"noticePeriod"`
+		Contact      string `json:"contact"`
+		Note         string `json:"note"`
+	} `json:"availability"`
+
+	Boundaries   []string `json:"boundaries"`
+	WorkingStyle []string `json:"workingStyle"`
+
 	Skills []struct {
 		Label string `json:"label"`
 		Value string `json:"value"`
@@ -99,6 +112,31 @@ func loadContext(path string) (string, error) {
 		p.Profile.Links.Email, p.Profile.Links.LinkedIn, p.Profile.Links.Resume)
 	b.WriteString("Resume card marker: [[resume]]\n")
 
+	if a := p.Availability; a.Status != "" {
+		b.WriteString("\nAvailability\n")
+		fmt.Fprintf(&b, "- Status: %s\n", a.Status)
+		writeField(&b, "Looking for", a.Seeking)
+		writeField(&b, "Preferences", a.Preferences)
+		writeField(&b, "Arrangement", a.Arrangement)
+		writeField(&b, "Notice period", a.NoticePeriod)
+		writeField(&b, "Preferred contact", a.Contact)
+		writeField(&b, "Note", a.Note)
+	}
+
+	if len(p.Boundaries) > 0 {
+		b.WriteString("\nOff-limits topics\n")
+		for _, rule := range p.Boundaries {
+			fmt.Fprintf(&b, "- %s\n", rule)
+		}
+	}
+
+	if len(p.WorkingStyle) > 0 {
+		b.WriteString("\nWorking style\n")
+		for _, line := range p.WorkingStyle {
+			fmt.Fprintf(&b, "- %s\n", line)
+		}
+	}
+
 	if len(p.Skills) > 0 {
 		b.WriteString("\nSkills\n")
 		for _, skill := range p.Skills {
@@ -159,4 +197,12 @@ func loadContext(path string) (string, error) {
 	}
 
 	return b.String(), nil
+}
+
+// writeField appends a labelled bullet, skipping empty values.
+func writeField(b *strings.Builder, label, value string) {
+	if value == "" {
+		return
+	}
+	fmt.Fprintf(b, "- %s: %s\n", label, value)
 }
