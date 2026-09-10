@@ -15,7 +15,6 @@ import gsap from "gsap";
 import { FadeIn } from "@/components/fade-in";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   findProjects,
   ProjectPreview,
@@ -58,6 +57,8 @@ const REVEAL_INTERVAL_MS = 35;
 const REVEAL_CATCHUP_CHARS = 240;
 
 const PROJECT_IDS = portfolio.projects.map((project) => project.id);
+
+const { profile } = portfolio;
 
 const AVATAR_PX = 192;
 
@@ -339,14 +340,14 @@ export function ChatPanel() {
   return (
     <section
       className={cn(
-        "flex min-h-svh flex-col justify-end px-4 pb-6 sm:justify-center sm:px-8 sm:py-16 md:px-12 lg:px-24",
+        "flex flex-1 flex-col justify-end px-5 pb-6 sm:justify-center sm:px-8 sm:py-16 md:px-12 lg:px-24",
         hasMessages ? "pt-4" : "pt-12",
       )}
     >
       <div
         className={cn(
-          "mx-auto flex w-full max-w-3xl flex-col transition-[max-width] duration-700 ease-out lg:flex-row lg:items-start",
-          hasCards && "lg:max-w-[70rem]",
+          "mx-auto flex w-full max-w-5xl flex-col transition-[max-width] duration-700 ease-out lg:flex-row lg:items-start",
+          hasCards && "lg:max-w-[76rem]",
           // Once the heading collapses its auto margins are gone, so stop
           // stretching or the block rides to the top on mobile.
           !hasMessages && "flex-1 sm:flex-none",
@@ -355,36 +356,45 @@ export function ChatPanel() {
         <FadeIn stagger={0.12} className="flex min-w-0 flex-1 flex-col">
           <div
             ref={headingRef}
-            className="my-auto overflow-hidden text-center sm:my-0 sm:pb-8"
+            className="my-auto overflow-hidden sm:my-0 sm:pb-10"
           >
-            <Image
-              src="/avatar.jpeg"
-              alt="Jaryl Ong"
-              width={AVATAR_PX}
-              height={AVATAR_PX}
-              priority
-              className="mx-auto size-24 animate-in object-cover mix-blend-multiply duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:size-28"
-            />
+            <div className="flex flex-col items-center gap-4 text-center sm:items-start sm:gap-6 sm:text-left">
+              <Image
+                src="/avatar.jpeg"
+                alt="Jaryl Ong"
+                width={AVATAR_PX}
+                height={AVATAR_PX}
+                priority
+                className="size-24 animate-in object-cover mix-blend-multiply duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:size-28"
+              />
 
-            <h1 className="mt-4 animate-in text-3xl leading-[1.05] duration-1000 delay-150 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:text-5xl md:text-6xl">
-              Ask me anything
-            </h1>
+              <h1 className="animate-in text-4xl leading-[0.9] duration-1000 delay-150 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:text-6xl md:text-7xl">
+                Ask me anything
+              </h1>
+
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground/70 sm:justify-start sm:text-sm">
+                <span>{profile.name}</span>
+                <span
+                  aria-hidden
+                  className="h-1 w-1 rounded-full bg-foreground/30"
+                />
+                <span>{profile.title}</span>
+              </div>
+            </div>
           </div>
 
           <div ref={transcriptRef} className="h-0 overflow-hidden opacity-0">
             {hasMessages && (
-              <Card className="ring-foreground/15">
+              <div className="flex flex-col border-y border-foreground/10">
                 {title && (
-                  <CardHeader className="animate-in border-b border-foreground/10 duration-500 fade-in motion-reduce:animate-none">
-                    <CardTitle className="truncate text-sm text-foreground/60">
-                      {title}
-                    </CardTitle>
-                  </CardHeader>
+                  <span className="animate-in truncate border-b border-foreground/10 py-3 text-xs text-foreground/40 duration-500 fade-in motion-reduce:animate-none">
+                    {title}
+                  </span>
                 )}
 
-                <CardContent
+                <div
                   ref={scrollRef}
-                  className="flex max-h-[calc(100svh_-_12rem)] flex-col items-stretch gap-4 overflow-y-auto sm:max-h-[55svh]"
+                  className="flex max-h-[calc(100svh_-_12rem)] flex-col items-stretch gap-6 overflow-y-auto py-6 sm:max-h-[55svh]"
                 >
                   {messages.map((message, index) => {
                     const reply =
@@ -401,7 +411,7 @@ export function ChatPanel() {
                       <article
                         key={index}
                         className={cn(
-                          "flex animate-in max-w-[85%] flex-col gap-2 duration-300 fade-in slide-in-from-bottom-2 motion-reduce:animate-none",
+                          "flex animate-in max-w-[85%] flex-col gap-2 duration-300 fade-in slide-in-from-bottom-2 motion-reduce:animate-none sm:max-w-2xl",
                           isUser
                             ? "self-end items-end"
                             : "self-start items-start",
@@ -414,10 +424,10 @@ export function ChatPanel() {
                         <div
                           aria-live={isUser ? undefined : "polite"}
                           className={cn(
-                            "flex flex-col gap-3 px-3 py-2 text-sm leading-relaxed sm:text-base",
+                            "flex flex-col gap-3 text-sm leading-relaxed sm:text-base",
                             isUser
-                              ? "bg-foreground text-background"
-                              : "bg-muted text-foreground",
+                              ? "bg-foreground px-3 py-2 text-background"
+                              : "border border-foreground/15 px-3 py-2 text-foreground",
                           )}
                         >
                           {splitParagraphs(
@@ -458,8 +468,8 @@ export function ChatPanel() {
                       {error}
                     </p>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )}
           </div>
 
@@ -469,7 +479,7 @@ export function ChatPanel() {
                 event.preventDefault();
                 void send(input);
               }}
-              className="flex w-full flex-col gap-2 bg-card px-3 py-2 ring-1 ring-foreground/15 transition-shadow duration-300 focus-within:ring-foreground/40 sm:flex-row sm:items-center sm:px-4"
+              className="flex w-full flex-col gap-2 border border-foreground/20 px-3 py-2 transition-colors duration-300 ease-out focus-within:border-foreground sm:flex-row sm:items-center sm:px-4"
             >
               <textarea
                 ref={textareaRef}
@@ -511,14 +521,14 @@ export function ChatPanel() {
               ref={chipsRef}
               className="mb-3 overflow-hidden sm:mb-0 sm:mt-6"
             >
-              <div className="flex flex-wrap gap-2 sm:justify-center">
+              <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
                 {SUGGESTIONS.map((suggestion, index) => (
                   <button
                     key={suggestion.label}
                     type="button"
                     onClick={() => void send(suggestion.question)}
                     style={{ animationDelay: `${index * CHIP_STAGGER_MS}ms` }}
-                    className="animate-in border border-foreground/15 px-3 py-1 text-xs font-normal normal-case tracking-normal text-foreground/70 duration-500 fade-in fill-mode-backwards slide-in-from-bottom-1 transition-colors hover:border-foreground hover:bg-foreground hover:text-background motion-reduce:animate-none"
+                    className="animate-in border border-foreground/15 px-3 py-1 text-xs font-normal text-foreground/70 duration-500 fade-in fill-mode-backwards slide-in-from-bottom-1 transition-colors hover:border-foreground hover:bg-foreground hover:text-background motion-reduce:animate-none"
                   >
                     {suggestion.label}
                   </button>
@@ -527,11 +537,8 @@ export function ChatPanel() {
             </div>
           </div>
 
-          <div className="mt-4 flex justify-end">
-            <Link
-              href="/portfolio"
-              className="text-xs normal-case tracking-normal text-foreground/50 underline-offset-4 transition-colors hover:text-foreground hover:underline"
-            >
+          <div className="mt-6 flex justify-center sm:justify-start">
+            <Link href="/portfolio" className="external-link">
               Or just read my portfolio <span aria-hidden>&rarr;</span>
             </Link>
           </div>
@@ -540,10 +547,10 @@ export function ChatPanel() {
         <aside
           aria-label="Project cards"
           className={cn(
-            "z-40 shrink-0 flex-col border border-foreground/15 bg-card shadow-lg transition-[width,margin] duration-700 ease-out",
+            "z-40 shrink-0 flex-col border border-foreground bg-background transition-[width,margin] duration-700 ease-out",
             // Overlays the transcript on small screens, sits beside it on large.
             "fixed inset-x-4 top-4",
-            "lg:static lg:inset-auto lg:z-auto lg:w-0 lg:border-0 lg:bg-transparent lg:shadow-none",
+            "lg:static lg:inset-auto lg:z-auto lg:w-0 lg:border-0 lg:bg-transparent",
             hasCards ? "flex lg:ml-10 lg:w-80" : "hidden lg:flex",
           )}
         >
