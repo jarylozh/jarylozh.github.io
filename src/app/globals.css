@@ -87,7 +87,7 @@
     text-transform: none;
   }
   p, li, blockquote {
-    font-weight: 100;
+    font-weight: 400;
   }
   code, kbd, pre, samp {
     font-family: var(--font-mono);
