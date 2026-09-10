@@ -25,20 +25,20 @@ export default function Home() {
           className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12"
         >
           <div className="flex flex-col items-center gap-4 text-center sm:items-start sm:gap-6 sm:text-left">
-            <h1 className="text-5xl leading-[0.9] sm:text-7xl md:text-8xl lg:text-9xl">
-              {profile.name}
-            </h1>
-            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground/70 sm:justify-start sm:text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow sm:justify-start">
               <span>{profile.title}</span>
               <span
                 aria-hidden
-                className="h-1 w-1 rounded-full bg-foreground/30"
+                className="size-[3px] rounded-full bg-muted-foreground"
               />
               <span>{profile.location}</span>
             </div>
+            <h1 className="text-5xl leading-[0.9] sm:text-7xl md:text-8xl lg:text-9xl">
+              {profile.name}
+            </h1>
           </div>
 
-          <p className="mx-auto max-w-2xl text-center text-sm font-normal leading-relaxed text-foreground sm:mx-0 sm:text-left sm:text-base">
+          <p className="mx-auto max-w-[520px] body-copy text-center font-normal sm:mx-0 sm:text-left">
             {profile.summary}
           </p>
 
@@ -83,12 +83,12 @@ export default function Home() {
           <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-foreground/10 pt-8 text-xs text-foreground/60 sm:mt-8 sm:gap-x-8 sm:grid-cols-4">
             {skills.map((skill) => (
               <div key={skill.label} className="flex flex-col gap-1">
-                <span className="text-foreground/40">{skill.label}</span>
+                <span className="meta">{skill.label}</span>
                 <span className="text-foreground">{skill.value}</span>
               </div>
             ))}
             <div className="flex flex-col gap-1">
-              <span className="text-foreground/40">Experience</span>
+              <span className="meta">Experience</span>
               <span className="text-foreground">
                 {yearsOfExperience}+ Years
               </span>
@@ -133,7 +133,7 @@ export default function Home() {
                       {role.bullets.map((bullet) => (
                         <li
                           key={bullet}
-                          className="text-sm font-normal leading-relaxed text-foreground sm:text-base"
+                          className="max-w-[520px] body-copy font-normal"
                         >
                           {bullet}
                         </li>
@@ -158,11 +158,16 @@ export default function Home() {
             </h2>
           </FadeIn>
 
-          {projects.map((project) => (
-            <FadeIn key={project.name}>
-              <ProjectCard {...project} />
-            </FadeIn>
-          ))}
+          <div className="flex flex-col border-b border-foreground/15">
+            {projects.map((project) => (
+              <FadeIn
+                key={project.name}
+                className="border-t border-foreground/15 py-6 sm:py-8"
+              >
+                <ProjectCard {...project} />
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -177,43 +182,39 @@ export default function Home() {
             </h2>
           </FadeIn>
 
-          {education.map((entry) => (
-            <FadeIn
-              key={entry.institution}
-              className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-12"
-            >
-              <div className="flex flex-col gap-2 md:col-span-4">
-                <h3 className="text-2xl leading-tight sm:text-3xl">
-                  {entry.institution}
-                </h3>
-                <span className="text-xs text-foreground/50">
-                  {entry.period}
-                </span>
-              </div>
+          <div className="flex flex-col border-b border-foreground/15">
+            {education.map((entry) => (
+              <FadeIn
+                key={entry.institution}
+                className="flex flex-col gap-3 border-t border-foreground/15 py-6 sm:py-8"
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 meta">
+                  <span>{entry.institution}</span>
+                  <span>{entry.period}</span>
+                </div>
 
-              <div className="flex flex-col md:col-span-8">
-                <p className="text-sm font-normal uppercase leading-relaxed tracking-normal text-foreground sm:text-base">
+                <h3 className="text-2xl leading-tight sm:text-3xl">
                   {entry.program}
-                </p>
+                </h3>
 
                 {entry.modules.length > 0 && (
-                  <ul className="flex flex-col gap-1 pt-6">
+                  <ul className="flex max-w-[560px] flex-col gap-1 pt-3 sm:pl-6">
                     {entry.modules.map((module) => (
                       <li
                         key={module.name}
-                        className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-sm font-light leading-relaxed text-foreground sm:text-base"
+                        className="flex items-baseline justify-between gap-x-6 body-copy font-light"
                       >
-                        <span>{module.name}</span>
-                        <span className="text-xs uppercase text-foreground/70">
+                        <span className="min-w-0">{module.name}</span>
+                        <span className="shrink-0 text-muted-foreground">
                           {module.status}
                         </span>
                       </li>
                     ))}
                   </ul>
                 )}
-              </div>
-            </FadeIn>
-          ))}
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -230,41 +231,37 @@ export default function Home() {
 
           {certifications.length === 0 ? (
             <FadeIn>
-              <p className="text-sm font-light leading-relaxed text-foreground/60 sm:text-base">
+              <p className="body-copy font-light">
                 More to come.
               </p>
             </FadeIn>
           ) : (
-            <div className="flex flex-col gap-6 sm:gap-8">
+            <div className="flex flex-col border-b border-foreground/15">
               {certifications.map((cert) => (
                 <FadeIn
                   key={cert.name}
-                  className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-12"
+                  className="flex flex-col gap-3 border-t border-foreground/15 py-6 sm:py-8"
                 >
-                  <div className="flex flex-col gap-2 md:col-span-4">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 meta">
+                    <span>{cert.issuer}</span>
+                    <span>{cert.period}</span>
+                  </div>
+
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                     <h3 className="text-2xl leading-tight sm:text-3xl">
-                      {cert.issuer}
+                      {cert.name}
                     </h3>
-                    <span className="text-xs text-foreground/50">
-                      {cert.period}
-                    </span>
                     {cert.credentialUrl && (
                       <a
                         href={cert.credentialUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="external-link mt-2"
+                        className="external-link"
                       >
                         Verify credential
                         <span aria-hidden>↗</span>
                       </a>
                     )}
-                  </div>
-
-                  <div className="flex flex-col md:col-span-8">
-                    <p className="text-sm font-normal uppercase leading-relaxed tracking-normal text-foreground sm:text-base">
-                      {cert.name}
-                    </p>
                   </div>
                 </FadeIn>
               ))}
