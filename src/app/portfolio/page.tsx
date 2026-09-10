@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const { profile, skills, experience, education, certifications, projects } =
   portfolio;
 
-const AVATAR_PX = 192;
+const AVATAR_PX = 512;
 
 /** Counts the graduate certificates an entry has finished. */
 function countCompleted(entry: Education) {
@@ -37,27 +37,29 @@ export default function Home() {
           stagger={0.12}
           className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12"
         >
-          <div className="flex flex-col items-center gap-4 text-center sm:items-start sm:gap-6 sm:text-left">
+          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+            <div className="order-last flex flex-col items-center gap-4 text-center sm:order-first sm:items-start sm:gap-6 sm:text-left">
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow sm:justify-start">
+                <span>{profile.title}</span>
+                <span
+                  aria-hidden
+                  className="size-[3px] rounded-full bg-muted-foreground"
+                />
+                <span>{profile.location}</span>
+              </div>
+              <h1 className="text-5xl leading-[0.9] sm:text-7xl md:text-8xl lg:text-9xl">
+                {profile.name}
+              </h1>
+            </div>
+
             <Image
-              src="/avatar.jpeg"
+              src="/avatar.png"
               alt={profile.name}
               width={AVATAR_PX}
               height={AVATAR_PX}
               priority
-              className="size-24 object-cover mix-blend-multiply sm:size-28"
+              className="size-28 shrink-0 object-contain sm:size-48 lg:size-64"
             />
-
-            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow sm:justify-start">
-              <span>{profile.title}</span>
-              <span
-                aria-hidden
-                className="size-[3px] rounded-full bg-muted-foreground"
-              />
-              <span>{profile.location}</span>
-            </div>
-            <h1 className="text-5xl leading-[0.9] sm:text-7xl md:text-8xl lg:text-9xl">
-              {profile.name}
-            </h1>
           </div>
 
           <p className="mx-auto max-w-[520px] body-copy text-center font-normal sm:mx-0 sm:text-left">
