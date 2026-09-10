@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 const { profile, skills, experience, education, certifications, projects } =
   portfolio;
 
-const AVATAR_PX = 512;
+const AVATAR_W = 896;
+const AVATAR_H = 864;
 
 /** Counts the graduate certificates an entry has finished. */
 function countCompleted(entry: Education) {
@@ -55,10 +56,10 @@ export default function Home() {
             <Image
               src="/avatar.png"
               alt={profile.name}
-              width={AVATAR_PX}
-              height={AVATAR_PX}
+              width={AVATAR_W}
+              height={AVATAR_H}
               priority
-              className="size-28 shrink-0 object-contain mask-b-from-55% mask-b-to-95% sm:size-48 lg:size-64"
+              className="h-auto w-28 shrink-0 mask-b-from-80% mask-b-to-100% sm:w-48 lg:w-64"
             />
           </div>
 

@@ -61,7 +61,8 @@ const PROJECT_IDS = portfolio.projects.map((project) => project.id);
 
 const { profile } = portfolio;
 
-const AVATAR_PX = 192;
+const AVATAR_W = 896;
+const AVATAR_H = 864;
 
 const FADE_IN =
   "animate-in duration-700 ease-out fade-in blur-in-2 motion-reduce:animate-none";
@@ -376,10 +377,10 @@ export function ChatPanel() {
               <Image
                 src="/avatar.png"
                 alt="Jaryl Ong"
-                width={AVATAR_PX}
-                height={AVATAR_PX}
+                width={AVATAR_W}
+                height={AVATAR_H}
                 priority
-                className="size-24 animate-in object-contain mask-b-from-55% mask-b-to-95% duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:size-28"
+                className="h-auto w-24 animate-in mask-b-from-80% mask-b-to-100% duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:w-28"
               />
 
               <div className="flex animate-in flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow duration-1000 delay-150 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:justify-start">
