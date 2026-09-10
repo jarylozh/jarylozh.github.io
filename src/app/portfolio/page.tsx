@@ -34,12 +34,12 @@ export default function Home() {
         id="hero"
         className="flex min-h-screen flex-col justify-center px-5 py-20 sm:px-8 md:px-12 md:py-24 lg:px-24"
       >
-        <FadeIn
-          stagger={0.12}
-          className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12"
-        >
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
-            <div className="order-last flex flex-col items-center gap-4 text-center sm:order-first sm:items-start sm:gap-6 sm:text-left">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 sm:gap-12">
+          <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-center sm:justify-between sm:gap-12">
+            <FadeIn
+              stagger={0.12}
+              className="order-last flex min-w-0 flex-col items-center gap-6 text-center sm:order-first sm:items-start sm:gap-8 sm:text-left"
+            >
               <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow sm:justify-start">
                 <span>{profile.title}</span>
                 <span
@@ -51,23 +51,12 @@ export default function Home() {
               <h1 className="text-5xl leading-[0.9] sm:text-7xl md:text-8xl lg:text-9xl">
                 {profile.name}
               </h1>
-            </div>
 
-            <Image
-              src="/avatar.png"
-              alt={profile.name}
-              width={AVATAR_W}
-              height={AVATAR_H}
-              priority
-              className="h-auto w-28 shrink-0 mask-b-from-80% mask-b-to-100% sm:w-48 lg:w-64"
-            />
-          </div>
+              <p className="max-w-[520px] body-copy font-normal">
+                {profile.summary}
+              </p>
 
-          <p className="mx-auto max-w-[520px] body-copy text-center font-normal sm:mx-0 sm:text-left">
-            {profile.summary}
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-3 sm:justify-start">
+              <div className="flex flex-wrap justify-center gap-3 sm:justify-start">
             <Button
               size="lg"
               nativeButton={false}
@@ -101,11 +90,24 @@ export default function Home() {
                 />
               }
             >
-              Resume
-            </Button>
+                Resume
+              </Button>
+              </div>
+            </FadeIn>
+
+            <FadeIn className="order-first shrink-0 sm:order-last">
+              <Image
+                src="/avatar.png"
+                alt={profile.name}
+                width={AVATAR_W}
+                height={AVATAR_H}
+                priority
+                className="h-auto w-32 mask-b-from-80% mask-b-to-100% sm:w-56 lg:w-72"
+              />
+            </FadeIn>
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-foreground/10 pt-8 text-xs text-foreground/60 sm:mt-8 sm:gap-x-8 sm:grid-cols-4">
+          <FadeIn className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-foreground/10 pt-8 text-xs text-foreground/60 sm:mt-8 sm:gap-x-8 sm:grid-cols-4">
             {skills.map((skill) => (
               <div key={skill.label} className="flex flex-col gap-1">
                 <span className="meta">{skill.label}</span>
@@ -118,8 +120,8 @@ export default function Home() {
                 {yearsOfExperience}+ Years
               </span>
             </div>
-          </div>
-        </FadeIn>
+          </FadeIn>
+        </div>
       </section>
 
       <section
