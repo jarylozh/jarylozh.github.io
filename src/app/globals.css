@@ -4,6 +4,19 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@utility eyebrow {
+  @apply font-mono text-[10px] leading-[1.4] uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px] sm:tracking-[0.27em];
+}
+
+@utility meta {
+  @apply text-[11px] leading-[1.4] uppercase tracking-[0.05em] text-muted-foreground;
+}
+
+@utility body-copy {
+  @apply text-[12px] leading-[1.8] tracking-[0.083em];
+  color: color-mix(in oklab, var(--color-foreground) 70%, transparent);
+}
+
 @utility external-link {
   @apply inline-flex w-fit items-center gap-1 text-xs uppercase tracking-wider text-foreground underline-offset-4 transition-opacity hover:underline hover:opacity-70;
 }
@@ -13,7 +26,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-heading: var(--font-bebas), "Bebas Neue", "Arial Narrow", sans-serif;
-  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, monospace;
+  --font-mono: var(--font-space-mono), "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -72,11 +85,8 @@
   }
   input, textarea, select, [contenteditable] {
     text-transform: none;
-    letter-spacing: normal;
   }
   p, li, blockquote {
-    text-transform: none;
-    letter-spacing: normal;
     font-weight: 100;
   }
   code, kbd, pre, samp {

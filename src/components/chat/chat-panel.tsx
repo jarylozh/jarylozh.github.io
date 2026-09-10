@@ -349,7 +349,7 @@ export function ChatPanel() {
   return (
     <section
       className={cn(
-        "flex flex-1 flex-col justify-end px-5 pb-6 sm:justify-center sm:px-8 sm:py-16 md:px-12 lg:px-24",
+        "flex flex-1 flex-col justify-end px-5 pb-6 normal-case tracking-[0.083em] sm:justify-center sm:px-8 sm:py-16 md:px-12 lg:px-24",
         hasMessages ? "pt-4" : "pt-12",
       )}
     >
@@ -377,18 +377,18 @@ export function ChatPanel() {
                 className="size-24 animate-in object-cover mix-blend-multiply duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:size-28"
               />
 
-              <h1 className="animate-in text-4xl leading-[0.9] duration-1000 delay-150 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:text-6xl md:text-7xl">
-                Ask me anything
-              </h1>
-
-              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground/70 sm:justify-start sm:text-sm">
+              <div className="flex animate-in flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow duration-1000 delay-150 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:justify-start">
                 <span>{profile.name}</span>
                 <span
                   aria-hidden
-                  className="h-1 w-1 rounded-full bg-foreground/30"
+                  className="size-[3px] rounded-full bg-muted-foreground"
                 />
                 <span>{profile.title}</span>
               </div>
+
+              <h1 className="animate-in text-4xl uppercase leading-[0.9] duration-1000 delay-300 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:text-6xl md:text-7xl">
+                Ask me anything
+              </h1>
             </div>
           </div>
 

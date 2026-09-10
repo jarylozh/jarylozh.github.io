@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Bebas_Neue } from "next/font/google";
+import { Inter, Bebas_Neue, Space_Mono } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -10,6 +10,12 @@ const inter = Inter({
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   weight: "400",
   subsets: ["latin"],
 });
@@ -27,7 +33,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full antialiased", inter.variable, bebasNeue.variable)}
+      className={cn(
+        "h-full antialiased",
+        inter.variable,
+        bebasNeue.variable,
+        spaceMono.variable,
+      )}
     >
       <body className="min-h-full flex flex-col">
         {children}
