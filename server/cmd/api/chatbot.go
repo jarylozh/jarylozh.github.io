@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/openai/openai-go/v3"
+	"github.com/openai/openai-go/v3/responses"
 )
 
 const (
@@ -23,6 +24,7 @@ const (
 	maxHistoryMessages = 12
 
 	maxCompletionTokens = 500
+	maxTitleTokens      = 32
 )
 
 const systemPrompt = `You are Jaryl Ong, replying to visitors on your own portfolio site.
@@ -60,6 +62,10 @@ type chatError struct {
 	Message string `json:"message"`
 }
 
+type titleResponse struct {
+	Title string `json:"title"`
+}
+
 func (app *application) chatHandler(w http.ResponseWriter, r *http.Request) {
 	req, err := app.readChatRequest(w, r)
 	if err != nil {
@@ -80,7 +86,6 @@ func (app *application) chatHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Order matters: validation must fail before any header is written.
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("X-Accel-Buffering", "no")
@@ -129,6 +134,55 @@ func (app *application) chatHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "data: [DONE]\n\n")
 	rc.Flush()
 	app.logger.Printf("chat reply in %d deltas, %d history messages, %d tokens", deltas, len(req.History), tokens)
+}
+
+func (app *application) titleSummarizerHandler(w http.ResponseWriter, r *http.Request) {
+	req, err := app.readChatRequest(w, r)
+	if err != nil {
+		if writeErr := app.writeJSON(w, http.StatusBadRequest, chatError{Message: err.Error()}, nil); writeErr != nil {
+			app.logger.Print(writeErr)
+		}
+		return
+	}
+
+	if app.budget.exhausted() {
+		app.logger.Print("daily token budget exhausted")
+
+		writeErr := app.writeJSON(w, http.StatusServiceUnavailable,
+			chatError{Message: "I have hit my daily limit, try again tomorrow"}, nil)
+		if writeErr != nil {
+			app.logger.Print(writeErr)
+		}
+		return
+	}
+
+	prompt := fmt.Sprintf("Summarize this message as a title with no more than 8 words\n %s", req.Message)
+
+	openai_resp, err := app.openai_client.Responses.New(r.Context(), responses.ResponseNewParams{
+		Model: openai.ChatModelGPT3_5Turbo,
+		Input: responses.ResponseNewParamsInputUnion{
+			OfString: openai.String(prompt),
+		},
+		MaxOutputTokens: openai.Int(maxTitleTokens),
+	})
+	if err != nil {
+		app.logger.Printf("summarizing title: %s", err)
+
+		writeErr := app.writeJSON(w, http.StatusBadGateway,
+			chatError{Message: "the assistant is unavailable"}, nil)
+		if writeErr != nil {
+			app.logger.Print(writeErr)
+		}
+		return
+	}
+
+	app.budget.record(openai_resp.Usage.TotalTokens)
+
+	title := strings.Trim(openai_resp.OutputText(), "\" \n\r")
+
+	if err := app.writeJSON(w, http.StatusOK, titleResponse{Title: title}, nil); err != nil {
+		app.logger.Print(err)
+	}
 }
 
 func (app *application) readChatRequest(w http.ResponseWriter, r *http.Request) (chatRequest, error) {

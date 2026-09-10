@@ -111,6 +111,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/v1/healthcheck", app.healthcheckHandler)
 	mux.HandleFunc("POST /v1/chat", app.chatHandler)
+	mux.HandleFunc("POST /v1/title", app.titleSummarizerHandler)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),

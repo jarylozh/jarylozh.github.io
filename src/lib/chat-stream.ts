@@ -6,6 +6,8 @@ export type ChatMessage = {
 const CHAT_API_URL =
   process.env.NEXT_PUBLIC_CHAT_API_URL || "http://localhost:4000/v1/chat";
 
+const TITLE_API_URL = CHAT_API_URL.replace(/\/chat(\/)?$/, "/title");
+
 const MAX_HISTORY_TURNS = 6;
 
 type StreamChatOptions = {
@@ -71,6 +73,28 @@ export async function streamChat({
       if (delta) onDelta(delta);
     }
   }
+}
+
+/**
+ * Asks the api for a short title for the first question of a conversation.
+ * Returns an empty string when the call fails or the title comes back blank.
+ */
+export async function summarizeTitle(
+  message: string,
+  signal: AbortSignal,
+): Promise<string> {
+  const response = await fetch(TITLE_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message }),
+    signal,
+  });
+
+  if (!response.ok) return "";
+
+  const { title } = (await response.json()) as { title?: string };
+
+  return title?.trim() ?? "";
 }
 
 /** Parses one SSE frame into its event name and joined data payload. */

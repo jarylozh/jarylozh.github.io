@@ -15,7 +15,7 @@ import gsap from "gsap";
 import { FadeIn } from "@/components/fade-in";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   findProjects,
   ProjectPreview,
@@ -28,7 +28,11 @@ import {
   splitParagraphs,
 } from "@/lib/chat-cards";
 import { portfolio } from "@/lib/portfolio";
-import { streamChat, type ChatMessage } from "@/lib/chat-stream";
+import {
+  streamChat,
+  summarizeTitle,
+  type ChatMessage,
+} from "@/lib/chat-stream";
 
 const SUGGESTIONS = [
   { label: "About me", question: "Who are you and what do you do?" },
@@ -124,6 +128,7 @@ export function ChatPanel() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [title, setTitle] = useState("");
 
   const messagesRef = useRef<ChatMessage[]>([]);
   const bufferRef = useRef("");
@@ -284,6 +289,15 @@ export function ChatPanel() {
       const controller = new AbortController();
       abortRef.current = controller;
 
+      // Titles the conversation from its opening question, alongside the reply.
+      if (history.length === 0) {
+        void summarizeTitle(trimmed, controller.signal)
+          .then((summary) => {
+            if (summary) setTitle(summary);
+          })
+          .catch(() => {});
+      }
+
       try {
         await streamChat({
           message: trimmed,
@@ -360,6 +374,14 @@ export function ChatPanel() {
           <div ref={transcriptRef} className="h-0 overflow-hidden opacity-0">
             {hasMessages && (
               <Card className="ring-foreground/15">
+                {title && (
+                  <CardHeader className="animate-in border-b border-foreground/10 duration-500 fade-in motion-reduce:animate-none">
+                    <CardTitle className="truncate text-sm text-foreground/60">
+                      {title}
+                    </CardTitle>
+                  </CardHeader>
+                )}
+
                 <CardContent
                   ref={scrollRef}
                   className="flex max-h-[calc(100svh_-_12rem)] flex-col items-stretch gap-4 overflow-y-auto sm:max-h-[55svh]"
