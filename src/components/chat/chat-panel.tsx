@@ -69,11 +69,16 @@ const FADE_IN =
 const LINK =
   "normal-case tracking-normal underline underline-offset-4 transition-opacity hover:opacity-70";
 
-/** Renders a reply link, routing portfolio paths through the client router. */
+/** Renders a reply link. Portfolio paths and external urls open in a new tab. */
 function ReplyLink({ href, children }: { href: string; children: ReactNode }) {
   if (href.startsWith("/")) {
     return (
-      <Link href={href} className={LINK}>
+      <Link
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={LINK}
+      >
         {children}
       </Link>
     );
@@ -547,7 +552,12 @@ export function ChatPanel() {
           </div>
 
           <div className="mt-6 flex justify-center sm:justify-start">
-            <Link href="/portfolio" className="external-link">
+            <Link
+              href="/portfolio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="external-link"
+            >
               Or just read my portfolio <span aria-hidden>&rarr;</span>
             </Link>
           </div>
