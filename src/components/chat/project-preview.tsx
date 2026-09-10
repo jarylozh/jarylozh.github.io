@@ -51,7 +51,7 @@ function PreviewMedia({ project }: { project: Project }) {
 
 export function ProjectPreview({ project }: { project: Project }) {
   return (
-    <div className="flex animate-in flex-col border border-foreground/15 bg-card duration-700 ease-out fade-in blur-in-2 slide-in-from-bottom-2 motion-reduce:animate-none">
+    <div className="flex animate-in flex-col border border-foreground/15 bg-card uppercase duration-700 ease-out fade-in blur-in-2 slide-in-from-bottom-2 motion-reduce:animate-none">
       <PreviewMedia project={project} />
 
       <div className="p-4">

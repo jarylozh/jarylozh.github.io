@@ -54,18 +54,18 @@ export function ProjectCard({
   return (
     <div className={cn("flex flex-col", compact ? "gap-4" : "gap-3")}>
       {compact ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <h3 className="text-lg leading-tight">{name}</h3>
-          <span className="text-xs text-foreground/60">{context}</span>
-          <span className="text-xs text-foreground/50">{role}</span>
+          <span className="meta">{context}</span>
+          <span className="meta">{role}</span>
           {link && (
             <a
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="external-link mt-2"
+              className="external-link mt-3"
             >
-              {name}
+              Visit site
               <span aria-hidden>↗</span>
             </a>
           )}
