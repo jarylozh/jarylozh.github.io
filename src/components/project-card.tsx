@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import gsap from "gsap";
 
+import { TagList } from "@/components/tag-list";
 import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
@@ -145,16 +146,7 @@ export function ProjectCard({
           </div>
         )}
 
-        <div className={cn("flex flex-wrap gap-2", compact ? "pt-4" : "pt-6")}>
-          {stack.map((tech) => (
-            <span
-              key={tech}
-              className="border border-foreground/15 px-3 py-1 text-xs text-foreground/70"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+        <TagList items={stack} className={compact ? "pt-4" : "pt-6"} />
       </div>
     </div>
   );
