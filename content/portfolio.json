@@ -30,7 +30,7 @@
     {
       "company": "ST Engineering",
       "location": "Singapore",
-      "period": "Jul 2021 — Present",
+      "period": "Jul 2021 · Present",
       "roles": [
         {
           "title": "Senior Software Engineer",
@@ -53,7 +53,7 @@
     {
       "institution": "National University of Singapore",
       "program": "Master of Technology in Software Engineering",
-      "period": "Jul 2025 — Present",
+      "period": "Jul 2025 · Present",
       "modules": [
         {
           "name": "Architecting Scalable Systems",
@@ -78,7 +78,7 @@
   ],
   "certifications": [
     {
-      "name": "AWS Certified Developer — Associate",
+      "name": "AWS Certified Developer · Associate",
       "issuer": "Amazon Web Services",
       "period": "Dec 2023",
       "credentialUrl": "https://cp.certmetrics.com/amazon/en/public/verify/credential/SKGHHPGBSFF1QSWC"
@@ -94,7 +94,7 @@
     {
       "id": "vault-of-cards",
       "name": "Vault of Cards",
-      "context": "NUS MTech — Architecting Scalable Solutions",
+      "context": "NUS MTech · Architecting Scalable Solutions",
       "role": "Cloud Architect & Developer",
       "link": "https://dev.vaultofcards.io",
       "description": "A marketplace for trading card collectors. You can browse and search listings, put up your own with photos, sign in with a verified email, and message buyers and sellers in real time. Next.js on the front, NestJS microservices on AWS behind it.",
@@ -106,7 +106,7 @@
         "GitHub Actions"
       ],
       "bullets": [
-        "Built the Next.js frontend and wired up GitHub Actions so every push deploys itself — no downtime, no manual steps.",
+        "Built the Next.js frontend and wired up GitHub Actions so every push deploys itself. No downtime, no manual steps.",
         "Set up the AWS infrastructure with containerised microservices, so it stays fast and stays up even when traffic spikes."
       ],
       "preview": "/previews/vault-of-cards.jpg",
@@ -115,10 +115,10 @@
     {
       "id": "askbot",
       "name": "Askbot",
-      "context": "Personal Project — LLM Framework Internals",
+      "context": "Personal Project · LLM Framework Internals",
       "role": "Developer",
       "link": "https://github.com/jarylozh/askbot",
-      "description": "I wanted to know what frameworks like LangChain actually do under the hood, so I rebuilt their core pieces myself — token streaming, conversation memory, prompt construction — straight on the OpenAI SDK. FastAPI on the backend, Next.js on the front.",
+      "description": "I wanted to know what frameworks like LangChain actually do under the hood, so I rebuilt their core pieces straight on the OpenAI SDK: token streaming, conversation memory, prompt construction. FastAPI on the backend, Next.js on the front.",
       "stack": [
         "Next.js",
         "FastAPI",

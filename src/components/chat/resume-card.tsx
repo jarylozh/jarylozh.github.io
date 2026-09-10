@@ -9,7 +9,7 @@ export function ResumeCard() {
       <div className="flex flex-col gap-1">
         <span className="text-sm">Resume</span>
         <span className="text-xs text-foreground/50">
-          {name} — {title}
+          {name} · {title}
         </span>
       </div>
 

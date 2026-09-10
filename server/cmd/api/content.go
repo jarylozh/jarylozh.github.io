@@ -143,7 +143,7 @@ func loadContext(path string) (string, error) {
 	if len(p.Projects) > 0 {
 		b.WriteString("\nProjects\n")
 		for _, project := range p.Projects {
-			fmt.Fprintf(&b, "%s — %s (%s)\n", project.Name, project.Context, project.Role)
+			fmt.Fprintf(&b, "%s · %s (%s)\n", project.Name, project.Context, project.Role)
 			fmt.Fprintf(&b, "  Card marker: [[project:%s]]\n", project.ID)
 			if project.Link != "" {
 				fmt.Fprintf(&b, "  Link: %s\n", project.Link)

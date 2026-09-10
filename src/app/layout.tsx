@@ -15,7 +15,7 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "Jaryl Ong — Senior Software Engineer",
+  title: "Jaryl Ong · Senior Software Engineer",
   description: "Portfolio of Jaryl Ong, a Senior Software Engineer based in Singapore.",
 };
 

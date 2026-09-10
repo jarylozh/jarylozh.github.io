@@ -5,7 +5,7 @@ import { ProjectCard } from "@/components/project-card";
 import { portfolio } from "@/lib/portfolio";
 
 export const metadata: Metadata = {
-  title: "Portfolio — Jaryl Ong",
+  title: "Portfolio · Jaryl Ong",
 };
 
 const { profile, skills, experience, education, certifications, projects } =
