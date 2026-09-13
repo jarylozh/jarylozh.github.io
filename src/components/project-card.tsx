@@ -4,6 +4,12 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import gsap from "gsap";
 
 import { TagList } from "@/components/tag-list";
+import {
+  BodyText,
+  EntryTitle,
+  ExternalLink,
+  MetaRow,
+} from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
@@ -54,36 +60,14 @@ export function ProjectCard({
 
   return (
     <div className="flex flex-col gap-3">
-      <div
-        className={cn(
-          "meta flex gap-x-6 gap-y-1",
-          compact ? "flex-col" : "flex-wrap items-baseline justify-between",
-        )}
-      >
+      <MetaRow stacked={compact}>
         <span>{context}</span>
         <span>{role}</span>
-      </div>
+      </MetaRow>
 
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-        <h3
-          className={cn(
-            "leading-tight",
-            compact ? "text-lg" : "text-2xl sm:text-3xl",
-          )}
-        >
-          {name}
-        </h3>
-        {link && (
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="external-link"
-          >
-            Visit site
-            <span aria-hidden>↗</span>
-          </a>
-        )}
+        <EntryTitle size={compact ? "sm" : "lg"}>{name}</EntryTitle>
+        {link && <ExternalLink href={link}>Visit site</ExternalLink>}
       </div>
 
       <div className={cn("flex flex-col", !compact && "pt-3")}>
@@ -96,29 +80,13 @@ export function ProjectCard({
             onKeyDown={handleKeyDown}
             className="group/desc flex cursor-pointer flex-col gap-3 outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
           >
-            <p
-              className={cn(
-                "font-normal",
-                "body-copy",
-                !compact && "max-w-[520px]",
-              )}
-            >
-              {description}
-            </p>
+            <BodyText measure={!compact}>{description}</BodyText>
             <span className="text-xs text-foreground/50 transition-colors group-hover/desc:text-foreground">
               {expanded ? "− Hide my contributions" : "+ Show my contributions"}
             </span>
           </div>
         ) : (
-          <p
-            className={cn(
-              "font-normal",
-              "body-copy",
-              !compact && "max-w-[520px]",
-            )}
-          >
-            {description}
-          </p>
+          <BodyText measure={!compact}>{description}</BodyText>
         )}
 
         {hasBullets && (
@@ -131,16 +99,14 @@ export function ProjectCard({
               className={cn("flex flex-col gap-3", compact ? "pt-4" : "pt-6")}
             >
               {bullets.map((bullet) => (
-                <li
+                <BodyText
                   key={bullet}
-                  className={cn(
-                    "font-light",
-                    "body-copy",
-                    !compact && "max-w-[520px]",
-                  )}
+                  as="li"
+                  measure={!compact}
+                  className="font-light"
                 >
                   {bullet}
-                </li>
+                </BodyText>
               ))}
             </ul>
           </div>
