@@ -1,6 +1,8 @@
 "use client";
 
 import { type MouseEvent } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
@@ -10,55 +12,89 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { pageGutter } from "@/components/section";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-const sections = [
-  { label: "About", href: "#hero" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Education", href: "#education" },
-  { label: "Certifications", href: "#certifications" },
+export type NavItem = {
+  label: string;
+  href: string;
+};
+
+const portfolioSections: NavItem[] = [
+  { label: "About", href: "/portfolio#hero" },
+  { label: "Experience", href: "/portfolio#experience" },
+  { label: "Projects", href: "/portfolio#projects" },
+  { label: "Education", href: "/portfolio#education" },
+  { label: "Certifications", href: "/portfolio#certifications" },
 ];
 
 const NAV_OFFSET = 64;
 
-function handleNavClick(href: string) {
+const linkClassName =
+  "rounded-none px-1.5 text-[10px] leading-[1.8] tracking-[0.04em] uppercase text-foreground transition-[text-decoration] hover:bg-transparent hover:underline hover:underline-offset-4 focus:bg-transparent sm:px-3 sm:text-[12px] sm:tracking-[0.083em]";
+
+function scrollToHash(hash: string) {
   return (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    const target = document.querySelector(href);
+    const target = document.querySelector(hash);
     if (!target) return;
     gsap.to(window, {
       duration: 1.2,
-      scrollTo: { y: target as Element, offsetY: NAV_OFFSET },
+      scrollTo: { y: target, offsetY: NAV_OFFSET },
       ease: "power2.inOut",
     });
-    history.replaceState(null, "", href);
+    history.replaceState(null, "", hash);
   };
 }
 
-export function SiteNav() {
+/** Drops the trailing slash so `trailingSlash` routes compare cleanly. */
+function normalisePath(path: string) {
+  return path.replace(/\/+$/, "") || "/";
+}
+
+export function SiteNav({ items = portfolioSections }: { items?: NavItem[] }) {
+  const pathname = usePathname();
+
   return (
     <header className="sticky top-0 z-50 bg-background">
-      <div className="mx-auto flex w-full max-w-5xl items-center gap-4 overflow-x-auto px-5 py-4 sm:px-8 md:px-12 lg:px-24">
+      <div
+        className={cn(
+          "mx-auto flex w-full max-w-5xl items-center gap-4 overflow-x-auto py-4",
+          pageGutter,
+        )}
+      >
         <NavigationMenu className="mx-auto w-max">
           <NavigationMenuList className="gap-0 sm:gap-1">
-            {sections.map((section) => (
-              <NavigationMenuItem key={section.href}>
-                <NavigationMenuLink
-                  render={
-                    <a
-                      className="text-foreground"
-                      href={section.href}
-                      onClick={handleNavClick(section.href)}
-                    />
-                  }
-                  className="rounded-none px-1.5 text-[10px] leading-[1.8] tracking-[0.04em] uppercase text-foreground transition-[text-decoration] hover:bg-transparent hover:underline hover:underline-offset-4 focus:bg-transparent sm:px-3 sm:text-[12px] sm:tracking-[0.083em]"
-                >
-                  {section.label} 
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
+            {items.map((item) => {
+              const [path, hash] = item.href.split("#");
+              const onThisPage =
+                Boolean(hash) &&
+                (path === "" ||
+                  normalisePath(path) === normalisePath(pathname));
+
+              return (
+                <NavigationMenuItem key={item.href}>
+                  <NavigationMenuLink
+                    render={
+                      onThisPage ? (
+                        <a
+                          className="text-foreground"
+                          href={`#${hash}`}
+                          onClick={scrollToHash(`#${hash}`)}
+                        />
+                      ) : (
+                        <Link className="text-foreground" href={item.href} />
+                      )
+                    }
+                    className={linkClassName}
+                  >
+                    {item.label}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              );
+            })}
           </NavigationMenuList>
         </NavigationMenu>
       </div>
