@@ -2,7 +2,6 @@ import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/naviga
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { ChevronDownIcon } from "lucide-react"
 
 function NavigationMenu({
   align = "start",
@@ -62,16 +61,25 @@ const navigationMenuTriggerStyle = cva(
 function NavigationMenuTrigger({
   className,
   children,
+  caret = true,
   ...props
-}: NavigationMenuPrimitive.Trigger.Props) {
+}: NavigationMenuPrimitive.Trigger.Props & { caret?: boolean }) {
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
       className={cn(navigationMenuTriggerStyle(), "group", className)}
       {...props}
     >
-      {children}{" "}
-      <ChevronDownIcon className="relative top-px ml-1 size-3 transition duration-300 group-data-popup-open/navigation-menu-trigger:rotate-180 group-data-open/navigation-menu-trigger:rotate-180" aria-hidden="true" />
+      {children}
+      {caret && (
+        <svg
+          viewBox="0 0 10 6"
+          aria-hidden="true"
+          className="relative top-px ml-1.5 h-[6px] w-[10px] fill-current transition duration-300 group-data-popup-open/navigation-menu-trigger:rotate-180 group-data-open/navigation-menu-trigger:rotate-180"
+        >
+          <path d="M0 0h10L5 6z" />
+        </svg>
+      )}
     </NavigationMenuPrimitive.Trigger>
   )
 }
