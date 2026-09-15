@@ -2,10 +2,11 @@ import { mkdir, rm } from "node:fs/promises";
 import { chromium } from "playwright";
 
 const TARGET = "https://dev.vaultofcards.io/marketplace?game=Pokemon%20TCG";
-const OUT_DIR = "public/previews";
+const OUT_DIR = process.env.OUT_DIR || "public/previews";
 const NAME = "vault-of-cards";
 
-const SIZE = { width: 800, height: 500 };
+// 8:5 viewport, tall enough to hold a whole listing row.
+const SIZE = { width: 1440, height: 900 };
 const SCROLL_STEPS = 72;
 const SCROLL_STEP_MS = 55;
 
@@ -15,12 +16,28 @@ await rm(".playwright-video", { recursive: true, force: true });
 const browser = await chromium.launch({ channel: "chrome" });
 const context = await browser.newContext({
   viewport: SIZE,
-  deviceScaleFactor: 1,
+  deviceScaleFactor: 2,
   recordVideo: { dir: ".playwright-video", size: SIZE },
   reducedMotion: "no-preference",
 });
 
 const page = await context.newPage();
+
+// Hides the build id the dev environment stamps into the corner.
+await page.addInitScript(() => {
+  const hide = () => {
+    for (const el of document.querySelectorAll("span")) {
+      if (/^develop-/i.test(el.textContent?.trim() ?? "")) {
+        el.style.visibility = "hidden";
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", hide);
+  new MutationObserver(hide).observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+});
 
 const startedAt = Date.now();
 
@@ -31,7 +48,9 @@ await page.waitForTimeout(900);
 await page.screenshot({
   path: `${OUT_DIR}/${NAME}.jpg`,
   type: "jpeg",
-  quality: 72,
+  quality: 88,
+  // Emits at css size, downsampled from the 2x render.
+  scale: "css",
 });
 
 await page.evaluate(
