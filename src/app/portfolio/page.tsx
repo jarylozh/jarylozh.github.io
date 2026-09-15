@@ -22,8 +22,9 @@ export const metadata: Metadata = {
     "Experience, projects, education, and certifications for Jaryl Ong.",
 };
 
-const { profile, skills, experience, education, certifications, projects } =
-  portfolio;
+const { profile, skills, experience, education, certifications } = portfolio;
+
+const selectedProjects = portfolio.projects.filter((project) => project.featured);
 
 const AVATAR_W = 896;
 const AVATAR_H = 864;
@@ -143,7 +144,7 @@ export default function Home() {
         <SectionHeading>Selected Projects</SectionHeading>
 
         <DividedList>
-          {projects.map((project) => (
+          {selectedProjects.map((project) => (
             <DividedItem key={project.name}>
               <ProjectCard {...project} />
             </DividedItem>

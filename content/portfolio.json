@@ -153,7 +153,8 @@
         "Set up the AWS infrastructure on containerised microservices. Fast and available through traffic spikes."
       ],
       "preview": "/previews/vault-of-cards.jpg",
-      "previewVideo": "/previews/vault-of-cards.webm"
+      "previewVideo": "/previews/vault-of-cards.webm",
+      "featured": true
     },
     {
       "id": "askbot",
@@ -172,7 +173,24 @@
       ],
       "bullets": [],
       "preview": null,
-      "previewVideo": null
+      "previewVideo": null,
+      "featured": true
+    },
+    {
+      "id": "pokepaste",
+      "name": "Pokepaste Converter",
+      "context": "Personal Project · Pokémon Team Building",
+      "role": "Developer",
+      "link": "/pokepaste",
+      "description": "Converts a Pokepaste team export onto the Champions EV scale. Reads each set's species, item, nature, spread and moves, rescales the spread, and writes it back out in Pokepaste order. Malformed sets are reported rather than silently dropped.",
+      "stack": [
+        "Next.js",
+        "Typescript"
+      ],
+      "bullets": [],
+      "preview": "/previews/pokepaste.png",
+      "previewVideo": null,
+      "featured": false
     }
   ]
 }

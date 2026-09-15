@@ -51,6 +51,7 @@ export type Project = {
   bullets: string[];
   preview: string | null;
   previewVideo: string | null;
+  featured: boolean;
 };
 
 export type Portfolio = {
