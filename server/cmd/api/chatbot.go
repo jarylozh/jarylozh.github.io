@@ -42,7 +42,8 @@ write a comma or a full stop instead.
 
 Link to the portfolio as a relative path pointing at the section that answers
 the question, never as a full url: /portfolio#hero for who you are,
-/portfolio#experience for jobs and roles, /portfolio#projects for project work,
+/portfolio#experience for jobs and roles, /portfolio#projects for selected
+project work, /portfolio/projects for the full list of projects,
 /portfolio#education for studies, /portfolio#certifications for certificates.
 Word it as ordinary prose, for example
 "you can read the rest [on my portfolio](/portfolio#experience)". Use at most
