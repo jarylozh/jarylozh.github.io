@@ -104,10 +104,9 @@ export function BodyText({
   );
 }
 
-/** Anchor to another site, suffixed with an arrow glyph. */
+/** Anchor to another site, opened in a new tab. */
 export function ExternalLink({
   className,
-  children,
   ...props
 }: React.ComponentProps<"a">) {
   return (
@@ -116,9 +115,6 @@ export function ExternalLink({
       rel="noopener noreferrer"
       className={cn("external-link", className)}
       {...props}
-    >
-      {children}
-      <span aria-hidden>↗</span>
-    </a>
+    />
   );
 }

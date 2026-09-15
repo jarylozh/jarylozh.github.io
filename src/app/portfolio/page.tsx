@@ -221,9 +221,7 @@ export default function Home() {
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                   <EntryTitle>{cert.name}</EntryTitle>
                   {cert.credentialUrl && (
-                    <ExternalLink href={cert.credentialUrl}>
-                      Verify credential
-                    </ExternalLink>
+                    <ExternalLink href={cert.credentialUrl}>Visit</ExternalLink>
                   )}
                 </div>
 

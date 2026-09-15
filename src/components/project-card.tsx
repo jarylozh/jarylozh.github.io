@@ -67,7 +67,7 @@ export function ProjectCard({
 
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <EntryTitle size={compact ? "sm" : "lg"}>{name}</EntryTitle>
-        {link && <ExternalLink href={link}>Visit site</ExternalLink>}
+        {link && <ExternalLink href={link}>Visit</ExternalLink>}
       </div>
 
       <div className={cn("flex flex-col", !compact && "pt-3")}>
