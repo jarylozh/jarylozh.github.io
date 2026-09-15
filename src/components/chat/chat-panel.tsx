@@ -439,7 +439,7 @@ export function ChatPanel() {
                         <div
                           aria-live={isUser ? undefined : "polite"}
                           className={cn(
-                            "flex flex-col gap-3 text-sm leading-relaxed sm:text-base",
+                            "flex flex-col gap-3 text-sm leading-relaxed tracking-normal sm:text-base",
                             isUser
                               ? "bg-foreground px-3 py-2 text-background"
                               : "border border-foreground/15 px-3 py-2 text-foreground",
@@ -504,7 +504,7 @@ export function ChatPanel() {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about my work, projects, or education…"
                 aria-label="Your question"
-                className="w-full resize-none bg-transparent px-2 py-1.5 text-sm font-normal leading-relaxed text-foreground outline-none placeholder:text-foreground/40 sm:flex-1 sm:text-base"
+                className="w-full resize-none bg-transparent px-2 py-1.5 text-sm font-normal leading-relaxed tracking-normal text-foreground outline-none placeholder:text-foreground/40 sm:flex-1 sm:text-base"
               />
 
               {isStreaming ? (
