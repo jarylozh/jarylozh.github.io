@@ -64,7 +64,7 @@ export default function Projects() {
           All Projects
         </SectionHeading>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 px-6 sm:grid-cols-2 sm:px-0 lg:grid-cols-3">
           {projects.map((project) => (
             <FadeIn key={project.id}>
               <CardLink href={project.link}>
