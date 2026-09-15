@@ -1,4 +1,3 @@
-import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 
 export default function PortfolioLayout({
@@ -8,7 +7,6 @@ export default function PortfolioLayout({
 }>) {
   return (
     <>
-      <SiteNav />
       {children}
       <SiteFooter />
     </>
