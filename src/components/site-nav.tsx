@@ -125,37 +125,33 @@ export function SiteNav({
 
   return (
     <header className="sticky top-0 z-50 bg-background">
-      <div
-        className={cn(
-          "mx-auto flex w-full max-w-5xl items-center py-4",
-          pageGutter,
-        )}
-      >
-        <NavigationMenu className="w-max sm:hidden">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger
-                caret={false}
-                aria-label="Menu"
-                className={cn(linkClassName, "px-2")}
-              >
-                <MenuGlyph />
-              </NavigationMenuTrigger>
-              <NavigationMenuContent className="flex w-44 flex-col">
-                {panelItems.map((item) => (
-                  <NavLink
-                    key={item.href}
-                    item={item}
-                    pathname={pathname}
-                    className={panelLinkClassName}
-                  />
-                ))}
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+      <div className={cn("py-4", pageGutter)}>
+        <div className="mx-auto flex w-full max-w-5xl items-center">
+          <NavigationMenu className="w-max sm:hidden">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger
+                  caret={false}
+                  aria-label="Menu"
+                  className={cn(linkClassName, "px-2")}
+                >
+                  <MenuGlyph />
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="flex w-44 flex-col">
+                  {panelItems.map((item) => (
+                    <NavLink
+                      key={item.href}
+                      item={item}
+                      pathname={pathname}
+                      className={panelLinkClassName}
+                    />
+                  ))}
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
-        <NavigationMenu className="mx-auto hidden w-max sm:flex">
+        <NavigationMenu className={cn("hidden w-max sm:flex", !menu && "mx-auto")}>
           <NavigationMenuList className="gap-0 sm:gap-1">
             {menu ? (
               <NavigationMenuItem>
@@ -181,7 +177,8 @@ export function SiteNav({
               ))
             )}
           </NavigationMenuList>
-        </NavigationMenu>
+          </NavigationMenu>
+        </div>
       </div>
     </header>
   );
