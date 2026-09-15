@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 import { Section, SectionHeading } from "@/components/section";
 import { MetaRow } from "@/components/typography";
@@ -44,13 +45,24 @@ export default function Pokepaste() {
 
   return (
     <Section id="converter">
-      <SectionHeading
-        as="h1"
-        eyebrow={["Tool"]}
-        description="Paste a team export and convert its spreads to the Champions scale."
-      >
-        Pokepaste Converter
-      </SectionHeading>
+      <div className="flex flex-col gap-6">
+        <Image
+          src="/previews/pokepaste.png"
+          alt=""
+          width={780}
+          height={280}
+          priority
+          className="h-16 w-auto self-start sm:h-20"
+        />
+
+        <SectionHeading
+          as="h1"
+          eyebrow={["Tool"]}
+          description="Paste a team export and convert its spreads to the Champions scale."
+        >
+          Pokepaste Converter
+        </SectionHeading>
+      </div>
 
       <div className="flex flex-col gap-6">
         <div className="grid gap-6 md:grid-cols-2">
