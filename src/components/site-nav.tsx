@@ -131,7 +131,7 @@ export function SiteNav({
           pageGutter,
         )}
       >
-        <NavigationMenu className="mx-auto w-max sm:hidden">
+        <NavigationMenu className="w-max sm:hidden">
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger
