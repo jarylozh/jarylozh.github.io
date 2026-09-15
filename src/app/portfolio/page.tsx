@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DividedItem, DividedList } from "@/components/divided-list";
 import { FadeIn } from "@/components/fade-in";
 import { PageHero } from "@/components/page-hero";
 import { ProjectCard } from "@/components/project-card";
 import { Section, SectionHeading } from "@/components/section";
+import { SiteNav } from "@/components/site-nav";
 import { StatGrid } from "@/components/stat-grid";
 import { TagList } from "@/components/tag-list";
 import {
@@ -24,7 +26,9 @@ export const metadata: Metadata = {
 
 const { profile, skills, experience, education, certifications } = portfolio;
 
-const selectedProjects = portfolio.projects.filter((project) => project.featured);
+const selectedProjects = portfolio.projects.filter(
+  (project) => project.featured,
+);
 
 const AVATAR_W = 896;
 const AVATAR_H = 864;
@@ -41,6 +45,8 @@ export default function Home() {
 
   return (
     <>
+      <SiteNav />
+
       <Section id="hero" variant="hero">
         <PageHero
           eyebrow={[profile.title, profile.location]}
@@ -150,6 +156,12 @@ export default function Home() {
             </DividedItem>
           ))}
         </DividedList>
+
+        <FadeIn>
+          <Link href="/portfolio/projects" className="external-link">
+            View all projects <span aria-hidden>&rarr;</span>
+          </Link>
+        </FadeIn>
       </Section>
 
       <Section id="education">
