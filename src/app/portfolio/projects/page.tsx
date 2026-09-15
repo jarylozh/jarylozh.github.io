@@ -51,7 +51,7 @@ export default function Projects() {
         All Projects
       </SectionHeading>
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
           <FadeIn key={project.id}>
             <CardLink href={project.link}>
@@ -60,7 +60,7 @@ export default function Projects() {
                   src={project.preview ?? PLACEHOLDER}
                   alt=""
                   fill
-                  sizes="(min-width: 1024px) 512px, (min-width: 640px) 50vw, 100vw"
+                  sizes="(min-width: 1024px) 341px, (min-width: 640px) 50vw, 100vw"
                   className="object-contain p-8"
                 />
               </div>
