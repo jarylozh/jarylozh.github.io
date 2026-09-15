@@ -49,10 +49,10 @@ export default function Pokepaste() {
         <Image
           src="/previews/pokepaste.png"
           alt=""
-          width={780}
-          height={280}
+          width={800}
+          height={500}
           priority
-          className="h-16 w-auto self-start sm:h-20"
+          className="w-48 self-start sm:w-56"
         />
 
         <SectionHeading
