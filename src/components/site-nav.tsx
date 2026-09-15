@@ -63,6 +63,21 @@ function normalisePath(path: string) {
   return path.replace(/\/+$/, "") || "/";
 }
 
+/** Three-line menu glyph. */
+function MenuGlyph() {
+  return (
+    <svg
+      viewBox="0 0 16 12"
+      aria-hidden="true"
+      fill="none"
+      strokeWidth={1.5}
+      className="h-3 w-4 stroke-current"
+    >
+      <path d="M0 1h16M0 6h16M0 11h16" />
+    </svg>
+  );
+}
+
 /** Scrolls when the hash belongs to the open page, routes when it does not. */
 function NavLink({
   item,
@@ -106,16 +121,41 @@ export function SiteNav({
   menu?: NavMenu;
 }) {
   const pathname = usePathname();
+  const panelItems = menu ? menu.items : items;
 
   return (
     <header className="sticky top-0 z-50 bg-background">
       <div
         className={cn(
-          "mx-auto flex w-full max-w-5xl items-center gap-4 overflow-x-auto py-4",
+          "mx-auto flex w-full max-w-5xl items-center py-4",
           pageGutter,
         )}
       >
-        <NavigationMenu className="mx-auto w-max">
+        <NavigationMenu className="mx-auto w-max sm:hidden">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger
+                caret={false}
+                aria-label="Menu"
+                className={cn(linkClassName, "px-2")}
+              >
+                <MenuGlyph />
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="flex w-44 flex-col">
+                {panelItems.map((item) => (
+                  <NavLink
+                    key={item.href}
+                    item={item}
+                    pathname={pathname}
+                    className={panelLinkClassName}
+                  />
+                ))}
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        <NavigationMenu className="mx-auto hidden w-max sm:flex">
           <NavigationMenuList className="gap-0 sm:gap-1">
             {menu ? (
               <NavigationMenuItem>
