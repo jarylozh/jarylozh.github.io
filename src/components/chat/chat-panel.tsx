@@ -10,11 +10,10 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { Button, FadeIn, TagButton } from "@jarylozh/ui";
+import { ArrowLink, Portrait } from "@jarylozh/ui/next";
 import gsap from "gsap";
 
-import { FadeIn } from "@/components/fade-in";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   findProjects,
@@ -374,13 +373,13 @@ export function ChatPanel() {
             className="my-auto overflow-hidden sm:my-0 sm:pb-10"
           >
             <div className="flex flex-col items-center gap-4 text-center sm:items-start sm:gap-6 sm:text-left">
-              <Image
+              <Portrait
                 src="/avatar.png"
                 alt="Jaryl Ong"
                 width={AVATAR_W}
                 height={AVATAR_H}
                 priority
-                className="h-auto w-24 animate-in mask-b-from-80% mask-b-to-100% duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:w-28"
+                className="w-24 animate-in duration-1000 ease-out fade-in blur-in-2 motion-reduce:animate-none sm:w-28"
               />
 
               <div className="flex animate-in flex-wrap items-center justify-center gap-x-3 gap-y-1 eyebrow duration-1000 delay-150 ease-out fade-in fill-mode-backwards motion-reduce:animate-none sm:justify-start">
@@ -538,29 +537,23 @@ export function ChatPanel() {
             >
               <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
                 {SUGGESTIONS.map((suggestion, index) => (
-                  <button
+                  <TagButton
                     key={suggestion.label}
-                    type="button"
                     onClick={() => void send(suggestion.question)}
                     style={{ animationDelay: `${index * CHIP_STAGGER_MS}ms` }}
-                    className="animate-in border border-foreground/15 px-3 py-1 text-xs font-normal text-foreground/70 duration-500 fade-in fill-mode-backwards slide-in-from-bottom-1 transition-colors hover:border-foreground hover:bg-foreground hover:text-background motion-reduce:animate-none"
+                    className="animate-in duration-500 fade-in fill-mode-backwards slide-in-from-bottom-1 motion-reduce:animate-none"
                   >
                     {suggestion.label}
-                  </button>
+                  </TagButton>
                 ))}
               </div>
             </div>
           </div>
 
           <div className="mt-6 flex justify-center sm:justify-start">
-            <Link
-              href="/portfolio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="external-link"
-            >
-              Or just read my portfolio <span aria-hidden>&rarr;</span>
-            </Link>
+            <ArrowLink href="/portfolio" newTab>
+              Or just read my portfolio
+            </ArrowLink>
           </div>
         </FadeIn>
 

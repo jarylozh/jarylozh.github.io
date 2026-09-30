@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Card, CardContent, CardMedia } from "@jarylozh/ui";
 import Image from "next/image";
 
 import { ProjectCard } from "@/components/project-card";
@@ -19,7 +20,7 @@ function PreviewMedia({ project }: { project: Project }) {
   if (!project.preview && !project.previewVideo) return null;
 
   return (
-    <div className="relative aspect-[8/5] w-full overflow-hidden border-b border-foreground/10">
+    <CardMedia>
       {project.preview && (
         <Image
           src={project.preview}
@@ -45,18 +46,18 @@ function PreviewMedia({ project }: { project: Project }) {
           )}
         />
       )}
-    </div>
+    </CardMedia>
   );
 }
 
 export function ProjectPreview({ project }: { project: Project }) {
   return (
-    <div className="flex animate-in flex-col border border-foreground/15 bg-card uppercase duration-700 ease-out fade-in blur-in-2 slide-in-from-bottom-2 motion-reduce:animate-none">
+    <Card className="animate-in uppercase duration-700 ease-out fade-in blur-in-2 slide-in-from-bottom-2 motion-reduce:animate-none">
       <PreviewMedia project={project} />
 
-      <div className="p-4">
+      <CardContent>
         <ProjectCard compact {...project} />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

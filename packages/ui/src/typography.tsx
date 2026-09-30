@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils";
+import { cn } from "./lib/utils.js";
 
 /** Mono label row with dot separators. Returns null when there are no items. */
 export function Eyebrow({
@@ -99,21 +99,6 @@ export function BodyText({
         measure && "max-w-[520px]",
         className,
       )}
-      {...props}
-    />
-  );
-}
-
-/** Anchor to another site, opened in a new tab. */
-export function ExternalLink({
-  className,
-  ...props
-}: React.ComponentProps<"a">) {
-  return (
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      className={cn("external-link", className)}
       {...props}
     />
   );

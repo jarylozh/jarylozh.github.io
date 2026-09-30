@@ -1,12 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Button, Field, FieldHeader, FieldHint, FieldLabel, Section, SectionHeading, Textarea } from "@jarylozh/ui";
 import Image from "next/image";
 
-import { Section, SectionHeading } from "@/components/section";
-import { MetaRow } from "@/components/typography";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 
 import { PokemonSet, PokepasteFormatError } from "./pokemon-set";
 
@@ -66,11 +63,11 @@ export default function Pokepaste() {
 
       <div className="flex flex-col gap-6">
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="flex flex-col gap-3">
-            <MetaRow>
-              <label htmlFor="pokepaste-input">Paste</label>
-              <span>Team export</span>
-            </MetaRow>
+          <Field>
+            <FieldHeader>
+              <FieldLabel htmlFor="pokepaste-input">Paste</FieldLabel>
+              <FieldHint>Team export</FieldHint>
+            </FieldHeader>
             <Textarea
               id="pokepaste-input"
               value={paste}
@@ -79,13 +76,13 @@ export default function Pokepaste() {
               spellCheck={false}
               className="min-h-80 sm:min-h-96"
             />
-          </div>
+          </Field>
 
-          <div className="flex flex-col gap-3">
-            <MetaRow>
-              <label htmlFor="pokepaste-output">Output</label>
-              <span>Converted sets</span>
-            </MetaRow>
+          <Field>
+            <FieldHeader>
+              <FieldLabel htmlFor="pokepaste-output">Output</FieldLabel>
+              <FieldHint>Converted sets</FieldHint>
+            </FieldHeader>
             <Textarea
               id="pokepaste-output"
               value={output}
@@ -93,7 +90,7 @@ export default function Pokepaste() {
               placeholder="Converted spreads land here."
               className="min-h-80 sm:min-h-96"
             />
-          </div>
+          </Field>
         </div>
 
         <div className="flex flex-wrap gap-3">

@@ -1,15 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { BodyText, EntryTitle, ExternalLink, MetaRow, TagList } from "@jarylozh/ui";
 import gsap from "gsap";
 
-import { TagList } from "@/components/tag-list";
-import {
-  BodyText,
-  EntryTitle,
-  ExternalLink,
-  MetaRow,
-} from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {

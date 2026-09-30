@@ -1,5 +1,7 @@
-import { pageGutter } from "@/components/section";
+import Link from "next/link";
+
 import { cn } from "@/lib/utils";
+import { pageGutter } from "@jarylozh/ui";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -10,15 +12,13 @@ export function SiteFooter() {
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-2 text-xs text-foreground/60 sm:flex-row">
           <span>© {year} Jaryl Ong</span>
           <span>
-            UI components by{" "}
-            <a
-              href="https://ui.shadcn.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            Built with{" "}
+            <Link
+              href="/ui"
               className="text-foreground/80 underline-offset-4 hover:underline"
             >
-              shadcn/ui
-            </a>
+              @jarylozh/ui
+            </Link>
           </span>
         </div>
       </div>

@@ -1,19 +1,22 @@
-import { Button } from "@/components/ui/button";
 import { portfolio } from "@/lib/portfolio";
+import { Button, Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@jarylozh/ui";
 
 export function ResumeCard() {
   const { links, name, title } = portfolio.profile;
 
   return (
-    <div className="flex animate-in flex-col gap-3 border border-foreground/15 bg-card p-4 duration-700 ease-out fade-in blur-in-2 slide-in-from-bottom-2 motion-reduce:animate-none">
-      <div className="flex flex-col gap-1">
-        <span className="text-sm">Resume</span>
-        <span className="text-xs text-foreground/50">
+    <Card
+      size="sm"
+      className="animate-in duration-700 ease-out fade-in blur-in-2 slide-in-from-bottom-2 motion-reduce:animate-none"
+    >
+      <CardHeader>
+        <CardTitle>Resume</CardTitle>
+        <CardDescription>
           {name} · {title}
-        </span>
-      </div>
+        </CardDescription>
+      </CardHeader>
 
-      <div className="flex flex-wrap gap-2">
+      <CardFooter className="flex-wrap">
         <Button
           size="sm"
           nativeButton={false}
@@ -31,7 +34,7 @@ export function ResumeCard() {
         >
           Open in Drive
         </Button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 }

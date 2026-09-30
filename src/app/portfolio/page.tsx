@@ -1,21 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { DividedItem, DividedList } from "@/components/divided-list";
-import { FadeIn } from "@/components/fade-in";
-import { PageHero } from "@/components/page-hero";
+import { BodyText, Button, DividedItem, DividedList, EntryTitle, ExternalLink, FadeIn, MetaRow, PageHero, Section, SectionHeading, StatGrid, TagList } from "@jarylozh/ui";
+import { ArrowLink, Portrait } from "@jarylozh/ui/next";
 import { ProjectCard } from "@/components/project-card";
-import { Section, SectionHeading } from "@/components/section";
 import { SiteNav } from "@/components/site-nav";
-import { StatGrid } from "@/components/stat-grid";
-import { TagList } from "@/components/tag-list";
-import {
-  BodyText,
-  EntryTitle,
-  ExternalLink,
-  MetaRow,
-} from "@/components/typography";
 import { portfolio, type Education } from "@/lib/portfolio";
 
 export const metadata: Metadata = {
@@ -92,13 +79,13 @@ export default function Home() {
             </>
           }
           aside={
-            <Image
+            <Portrait
               src="/avatar.png"
               alt={profile.name}
               width={AVATAR_W}
               height={AVATAR_H}
               priority
-              className="h-auto w-32 mask-b-from-80% mask-b-to-100% sm:w-56 lg:w-72"
+              className="w-32 sm:w-56 lg:w-72"
             />
           }
         />
@@ -158,9 +145,7 @@ export default function Home() {
         </DividedList>
 
         <FadeIn>
-          <Link href="/portfolio/projects" className="external-link">
-            View all projects <span aria-hidden>&rarr;</span>
-          </Link>
+          <ArrowLink href="/portfolio/projects">View all projects</ArrowLink>
         </FadeIn>
       </Section>
 

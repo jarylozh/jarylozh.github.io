@@ -1,20 +1,12 @@
 "use client";
 
 import { type MouseEvent } from "react";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, pageGutter } from "@jarylozh/ui";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { pageGutter } from "@/components/section";
 import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollToPlugin);

@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
+import { BodyText, FadeIn, Section, SectionHeading } from "@jarylozh/ui";
 import { type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { FadeIn } from "@/components/fade-in";
-import { Section, SectionHeading } from "@/components/section";
 import { SiteNav } from "@/components/site-nav";
-import { BodyText } from "@/components/typography";
 import { portfolio } from "@/lib/portfolio";
 
 export const metadata: Metadata = {

@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
 
-import { FadeIn } from "@/components/fade-in";
-import { BodyText, Eyebrow } from "@/components/typography";
-import { cn } from "@/lib/utils";
+import { FadeIn } from "./fade-in.js";
+import { BodyText, Eyebrow } from "./typography.js";
+import { cn } from "./lib/utils.js";
 
 /** Opening block of a page: eyebrow, display title, summary, actions, aside. */
 export function PageHero({

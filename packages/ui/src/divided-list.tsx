@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 
-import { FadeIn } from "@/components/fade-in";
-import { cn } from "@/lib/utils";
+import { FadeIn } from "./fade-in.js";
+import { cn } from "./lib/utils.js";
 
 /** Stacks entries between hairline rules, closed off at the bottom. */
 export function DividedList({

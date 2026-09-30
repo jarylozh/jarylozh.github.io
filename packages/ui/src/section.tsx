@@ -1,9 +1,9 @@
 import { type ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { FadeIn } from "@/components/fade-in";
-import { BodyText, Eyebrow } from "@/components/typography";
-import { cn } from "@/lib/utils";
+import { FadeIn } from "./fade-in.js";
+import { BodyText, Eyebrow } from "./typography.js";
+import { cn } from "./lib/utils.js";
 
 /** Horizontal gutters shared by every full-width band on the site. */
 export const pageGutter = "px-5 sm:px-8 md:px-12 lg:px-24";
