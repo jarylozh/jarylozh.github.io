@@ -1,6 +1,6 @@
 {
   "name": "@jarylozh/ui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Editorial React components: square corners, hairline rules, uppercase type, greyscale palette.",
   "license": "UNLICENSED",
   "type": "module",
