@@ -13,12 +13,11 @@ on:
       - ".github/workflows/library.yml"
   workflow_dispatch:
 
-# packages lets the job publish to GitHub Packages, pull-requests lets
-# changesets open the version PR, contents lets it push the version commit.
+# packages lets the job publish to GitHub Packages, contents lets it push
+# the version bump back to main.
 permissions:
   contents: write
   packages: write
-  pull-requests: write
 
 # Only run one release at a time; don't cancel an in-progress one.
 concurrency:
@@ -65,13 +64,25 @@ jobs:
       - name: Check the publishable tarball
         run: pnpm --filter ${{ env.PACKAGE }} exec npm pack --dry-run
 
-      # Opens a version PR while changesets are pending, publishes once it merges.
-      - uses: changesets/action@v1
-        with:
-          version: pnpm run version:packages
-          publish: pnpm run release
-          commit: "chore: version packages"
-          title: "chore: version packages"
+      # No-op when no changesets are pending, so every push is safe to run.
+      - name: Apply pending changesets
+        run: pnpm run version:packages
+
+      # A push authenticated with GITHUB_TOKEN does not retrigger workflows,
+      # so this cannot loop back into itself.
+      - name: Push the version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --quiet --cached; then
+            echo "no pending changesets, nothing to version"
+            exit 0
+          fi
+          git commit -m "chore: version packages"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Publish to GitHub Packages
+        run: pnpm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
