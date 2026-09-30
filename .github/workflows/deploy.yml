@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - "src/**"
+      - "packages/**"
       - "public/**"
       - "content/**"
       - "package.json"
       - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
       - "next.config.ts"
       - "tsconfig.json"
       - "postcss.config.mjs"

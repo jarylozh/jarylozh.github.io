@@ -1,0 +1,77 @@
+name: Publish component library
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/**"
+      - ".changeset/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".npmrc"
+      - ".github/workflows/library.yml"
+  workflow_dispatch:
+
+# packages lets the job publish to GitHub Packages, pull-requests lets
+# changesets open the version PR, contents lets it push the version commit.
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+
+# Only run one release at a time; don't cancel an in-progress one.
+concurrency:
+  group: library-release
+  cancel-in-progress: false
+
+env:
+  PACKAGE: "@jarylozh/ui"
+  REGISTRY: https://npm.pkg.github.com
+  SCOPE: "@jarylozh"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Changesets reads history to work out what changed since the last tag.
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: ${{ env.REGISTRY }}
+          scope: ${{ env.SCOPE }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The site resolves the library's types from dist, so it compiles first.
+      - name: Build the library
+        run: pnpm build:ui
+
+      - name: Typecheck and lint
+        run: |
+          pnpm typecheck
+          pnpm lint
+
+      - name: Check the publishable tarball
+        run: pnpm --filter ${{ env.PACKAGE }} exec npm pack --dry-run
+
+      # Opens a version PR while changesets are pending, publishes once it merges.
+      - uses: changesets/action@v1
+        with:
+          version: pnpm run version:packages
+          publish: pnpm run release
+          commit: "chore: version packages"
+          title: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
