@@ -1,4 +1,6 @@
 packages:
+  # The site itself is a workspace package, so its changesets resolve.
+  - "."
   - "packages/*"
 
 ignoredBuiltDependencies:
